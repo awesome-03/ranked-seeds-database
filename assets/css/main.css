@@ -92,6 +92,30 @@ select {
   border-radius: var(--normal-gap);
 }
 
+.overworld-extras {
+  display:flex;
+  flex-direction: column;
+  row-gap: var(--normal-gap);
+  margin: var(--normal-gap) .75rem;
+}
+
+.overworld-extras button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: var(--bg-dark);
+  border: none;
+  height: 33px;
+  width: 100%;
+  padding: 0;
+}
+
+.menu-arrow {
+  width: 1rem;
+  height: 1rem;
+}
+
 /* Data Section */
 section#data {
   grid-column: 2;
@@ -139,9 +163,19 @@ div#data-titles > p, .data-list p {
   margin: 0px 1rem;
 }
 
-.notes {
+.notes-box {
   height: 23px;
+  border: none;
   border-bottom: 1px dashed var(--border);
+
+  color: var(--text);
+  background-color: var(--bg-light);
+
+  margin-right: 1rem;
+}
+
+.notes-box:focus {
+  outline: none;
 }
 
 /* Collection Segment */

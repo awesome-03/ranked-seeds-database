@@ -32,7 +32,7 @@
       <div class="bg-box">
         <div id="overworld-filter">
           <div class="filter-title">
-            <span>Overworld:</span>
+            <label>Overworld:</label>
             <select name="overworld" id="overworlds">
               <option value="ALL">ALL</option>
               <option value="VILLAGE">VILLAGE</option>
@@ -42,11 +42,20 @@
               <option value="RUINED_PORTAL">RUINED PORTAL</option>
             </select>
           </div>
+
+          <div class="overworld-extras">
+            <div>
+              <button>
+                <label>Shipwreck Type</label>
+                <img src="assets/img/right_arrow.png" alt="open/close menu" class="menu-arrow">
+              </button>
+            </div>
+          </div>
         </div>
 
         <div id="bastion-filter">
           <div class="filter-title">
-            <span>Bastion:</span>
+            <label>Bastion:</label>
             <select name="bastions" id="bastions">
               <option value="ALL">ALL</option>
               <option value="BRIDGE">BRIDGE</option>
@@ -59,7 +68,7 @@
 
         <div id="fortress-filter">
           <div class="filter-title">
-            <span>Fortress Biome:</span>
+            <label>Fortress Biome:</label>
             <select name="fortress-biomes" id="fortress-biomes">
               <option value="ALL">ALL</option>
               <option value="NETHER_WASTES">NETHER WASTES</option>
@@ -73,7 +82,7 @@
 
         <div id="end-filter">
           <div class="filter-title">
-            <span>End Spawn:</span>
+            <label>End Spawn:</label>
             <select name="end-spawns" id="end-spawns">
               <option value="ALL">ALL</option>
               <option value="OPEN_PLATFORM">OPEN</option>
@@ -101,21 +110,21 @@
             <input type="checkbox">
             <p class="ow-seed">1234567891011</p>
             <p class="nether-seed">1110987654321</p>
-            <p class="notes">This seed was lowkey kinda goated</p>
+            <input type="text" name="notes" class="notes-box" value="This seed was lowkey kinda goated"></input>
           </div>
 
           <div class="data-row">
             <input type="checkbox">
             <p class="ow-seed">1234567891011</p>
             <p class="nether-seed">1110987654321</p>
-            <p class="notes">Redlime I hate you, auuughghghhh</p>
+            <input type="text" name="notes" class="notes-box" value="Redlime I hate you, auuughghghhh"></input>
           </div>
 
           <div class="data-row">
             <input type="checkbox">
             <p class="ow-seed">1234567891011</p>
             <p class="nether-seed">1110987654321</p>
-            <p class="notes"></p>
+            <input type="text" name="notes" class="notes-box"></input>
           </div>
         </div>
       </div>
