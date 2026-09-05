@@ -1,0 +1,34 @@
+/* Collection Segment */
+section#collection {
+  grid-column: 3;
+  justify-self: start;
+  position: sticky;
+  top: 1rem;
+}
+
+section#collection .bg-box {
+  position: sticky;
+  width: 420px;
+  height: 600px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  row-gap: var(--normal-gap);
+}
+
+div#collection-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+section#collection button {
+  background-color: var(--secondary);
+  border: 4px solid var(--secondary);
+}
+
+section#collection button:hover {
+  background-color: var(--primary);
+  border: 4px solid var(--primary);
+}
