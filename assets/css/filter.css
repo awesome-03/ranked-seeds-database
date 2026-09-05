@@ -64,7 +64,8 @@ select {
   transform: translateY(0);
 }
 
-.overworld-extras button {
+.overworld-extras button,
+.bastion-extras button {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -74,6 +75,9 @@ select {
   height: 33px;
   width: 100%;
   padding: 0;
+  color: var(--text);
+  font-family: inherit;
+  font-size: inherit;
 
   cursor: pointer;
 }
@@ -85,7 +89,8 @@ select {
   transition: transform 0.18s cubic-bezier(0.2, 0, 0.2, 1);
 }
 
-.overworld-extras button.open .menu-arrow {
+.overworld-extras button.open .menu-arrow,
+.bastion-extras button.open .menu-arrow {
   transform: rotate(90deg);
 }
 
@@ -297,4 +302,38 @@ select {
   transform: translateX(62px);
   background-color: rgb(201, 42, 42);
   box-shadow: 0 2px 8px rgba(224, 44, 44, 0.35);
+}
+
+/* Bastion Extras Container */
+.bastion-extras {
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--normal-gap);
+  margin: 0 0.75rem;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: height 0.22s cubic-bezier(0.2, 0, 0.2, 1), margin 0.22s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.22s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.bastion-extras.active {
+  margin: var(--normal-gap) 0.75rem;
+  opacity: 1;
+}
+
+.bastion-structure-extras {
+  display: none;
+  flex-direction: column;
+  row-gap: var(--normal-gap);
+  min-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.12s cubic-bezier(0.2, 0, 0.2, 1), transform 0.12s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.bastion-structure-extras.active {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
 }

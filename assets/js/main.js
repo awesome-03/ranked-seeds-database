@@ -82,8 +82,8 @@ if (overworldSelect) {
   updateOverworldExtras(); // Sync on load
 }
 
-// Expandable content toggle
-document.querySelectorAll(".overworld-extras button").forEach((btn) => {
+// Expandable content toggle (Overworld & Bastion sub-menus)
+document.querySelectorAll(".overworld-extras button, .bastion-extras button").forEach((btn) => {
   btn.addEventListener("click", () => {
     btn.classList.toggle("open");
     const content = btn.nextElementSibling;
@@ -130,3 +130,81 @@ document.querySelectorAll(".switch").forEach((sw) => {
     }
   });
 });
+
+// Bastion Dropdown selection handler
+const bastionSelect = document.getElementById("bastions");
+
+function updateBastionExtras() {
+  const selectedValue = bastionSelect ? bastionSelect.value : "ALL";
+  const container = document.querySelector(".bastion-extras");
+  const nextExtra = document.getElementById(`bastion-extras-${selectedValue}`);
+
+  if (!container) return;
+
+  const currentExtra = container.querySelector(".bastion-structure-extras.active");
+  if (currentExtra === nextExtra) return;
+
+  const startHeight = container.getBoundingClientRect().height;
+
+  container.style.height = `${startHeight}px`;
+  if (startHeight > 0) {
+    container.classList.add("active");
+  }
+  void container.offsetHeight;
+
+  if (currentExtra) {
+    currentExtra.style.opacity = "0";
+    currentExtra.style.transform = "translateY(-4px)";
+  }
+
+  const hasContent = nextExtra && nextExtra.children.length > 0;
+
+  clearTimeout(container._swapTimeout);
+  container._swapTimeout = setTimeout(() => {
+    document.querySelectorAll(".bastion-structure-extras").forEach((el) => {
+      if (el !== nextExtra) {
+        el.classList.remove("active");
+        el.style.opacity = "";
+        el.style.transform = "";
+      }
+    });
+
+    if (hasContent) {
+      nextExtra.classList.add("active");
+      container.classList.add("active");
+    }
+
+    container.style.height = "auto";
+    const targetHeight = container.getBoundingClientRect().height;
+
+    container.style.height = `${startHeight}px`;
+    void container.offsetHeight;
+
+    if (hasContent && targetHeight > 0) {
+      container.classList.add("active");
+      container.style.height = `${targetHeight}px`;
+    } else {
+      container.classList.remove("active");
+      container.style.height = "0px";
+    }
+
+    clearTimeout(container._heightTimeout);
+    container._heightTimeout = setTimeout(() => {
+      if (hasContent && targetHeight > 0) {
+        container.style.height = "auto";
+      } else {
+        document.querySelectorAll(".bastion-structure-extras").forEach((el) => {
+          el.classList.remove("active");
+          el.style.opacity = "";
+          el.style.transform = "";
+        });
+        container.style.height = "0px";
+      }
+    }, 220);
+  }, currentExtra ? 40 : 0);
+}
+
+if (bastionSelect) {
+  bastionSelect.addEventListener("change", updateBastionExtras);
+  updateBastionExtras(); // Sync on load
+}
