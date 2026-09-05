@@ -15,10 +15,10 @@
   <script type="module" src="assets/js/main.js"></script>
 
   <!-- Favicon -->
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
-  <link rel="manifest" href="assets/img/site.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon/favicon-16x16.png">
+  <link rel="manifest" href="assets/img/favicon/site.webmanifest">
 
   <link rel="stylesheet" href="assets/css/reset.css">
   <link rel="stylesheet" href="assets/css/main.css">
@@ -44,15 +44,49 @@
           </div>
 
           <div class="overworld-extras">
-            <div>
-              <button>
-                <label>Shipwreck Type</label>
+            <div id="shipwreck">
+              <button type="button" id="shipwreck-btn">
+                <span>Shipwreck Type</span>
                 <img src="assets/img/right_arrow.png" alt="open/close menu" class="menu-arrow">
               </button>
+              <div id="shipwreck-content" class="expandable-content">
+                <div>
+                  <div class="expandable-content-label">
+                    <img src="assets/img/shipwreck_rightsideup.png" alt="Normal">
+                    <label>Normal</label>
+                  </div>
+
+                  <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+                <div>
+                  <div class="expandable-content-label">
+                    <img src="assets/img/shipwreck_with_mast.png" alt="With Mast">
+                    <label>With Mast</label>
+                  </div>  
+                </div>
+                  
+                <div>
+                  <div class="expandable-content-label">
+                    <img src="assets/img/shipwreck_upsidedown.png" alt="Upside down">
+                    <label>Upside Down</label>
+                  </div>
+                </div>
+                
+                <div>
+                  <div class="expandable-content-label">
+                    <img src="assets/img/shipwreck_sideways.png" alt="Sideways">
+                    <label>Sideways</label>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-
+        
         <div id="bastion-filter">
           <div class="filter-title">
             <label>Bastion:</label>
