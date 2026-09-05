@@ -1,9 +1,9 @@
-const shipwreckBtn = document.getElementById("shipwreck-btn");
-const shipwreckContent = document.getElementById("shipwreck-content");
-
-if (shipwreckBtn && shipwreckContent) {
-  shipwreckBtn.addEventListener("click", () => {
-    shipwreckBtn.classList.toggle("open");
-    shipwreckContent.classList.toggle("open");
+document.querySelectorAll(".overworld-extras button").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    btn.classList.toggle("open");
+    const content = btn.nextElementSibling;
+    if (content && content.classList.contains("expandable-content")) {
+      content.classList.toggle("open");
+    }
   });
-}
+});

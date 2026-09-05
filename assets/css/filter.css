@@ -113,7 +113,7 @@ select {
 .switch {
   position: relative;
   display: inline-block;
-  width: 56px;
+  width: 59px; /* 28px + 3px gap + 28px */
   height: 28px;
   flex-shrink: 0;
   user-select: none;
@@ -157,7 +157,7 @@ select {
 }
 
 .slider .cross-icon {
-  left: 28px;
+  left: 31px; /* 28px + 3px gap */
   padding: 5px;
 }
 
@@ -176,7 +176,7 @@ select {
 }
 
 .switch input:not(:checked) + .slider .knob {
-  transform: translateX(28px);
+  transform: translateX(31px); /* Slide 31px right */
   background-color: rgb(201, 42, 42);
   box-shadow: 0 2px 8px rgba(224, 44, 44, 0.35);
 }
