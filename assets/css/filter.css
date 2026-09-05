@@ -32,10 +32,25 @@ select {
 }
 
 .overworld-extras {
-  display:flex;
+  display: none;
   flex-direction: column;
   row-gap: var(--normal-gap);
   margin: var(--normal-gap) .75rem;
+}
+
+.overworld-extras:has(.structure-extras.active),
+.overworld-extras.active {
+  display: flex;
+}
+
+.structure-extras {
+  display: none;
+  flex-direction: column;
+  row-gap: var(--normal-gap);
+}
+
+.structure-extras.active {
+  display: flex;
 }
 
 .overworld-extras button {

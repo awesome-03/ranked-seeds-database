@@ -1,3 +1,31 @@
+// Overworld Dropdown selection handler
+const overworldSelect = document.getElementById("overworlds");
+
+function updateOverworldExtras() {
+  const selectedValue = overworldSelect ? overworldSelect.value : "ALL";
+  const container = document.querySelector(".overworld-extras");
+
+  // Hide all structure extra sections
+  document.querySelectorAll(".structure-extras").forEach((el) => {
+    el.classList.remove("active");
+  });
+
+  // Show selected structure extra section if it exists and has content
+  const activeExtra = document.getElementById(`extras-${selectedValue}`);
+  if (activeExtra && activeExtra.children.length > 0) {
+    activeExtra.classList.add("active");
+    if (container) container.classList.add("active");
+  } else {
+    if (container) container.classList.remove("active");
+  }
+}
+
+if (overworldSelect) {
+  overworldSelect.addEventListener("change", updateOverworldExtras);
+  updateOverworldExtras(); // Sync on load
+}
+
+// Expandable content toggle
 document.querySelectorAll(".overworld-extras button").forEach((btn) => {
   btn.addEventListener("click", () => {
     btn.classList.toggle("open");
@@ -18,10 +46,8 @@ document.querySelectorAll(".switch-3way").forEach((sw) => {
     let newState = currentState;
 
     if (targetState) {
-      // Direct click on specific icon (Minus, Check, or Cross)
       newState = targetState;
     } else {
-      // Cycle: neutral -> check -> cross -> neutral
       if (currentState === "neutral") newState = "check";
       else if (currentState === "check") newState = "cross";
       else newState = "neutral";
@@ -32,7 +58,7 @@ document.querySelectorAll(".switch-3way").forEach((sw) => {
   });
 });
 
-// 2-Way Switch Handler (Direct icon click: Check -> ON, Cross -> OFF)
+// 2-Way Switch Handler
 document.querySelectorAll(".switch").forEach((sw) => {
   const checkbox = sw.querySelector("input[type='checkbox']");
   const checkIcon = sw.querySelector(".check-icon");
