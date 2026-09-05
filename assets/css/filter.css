@@ -113,7 +113,7 @@ select {
 .switch {
   position: relative;
   display: inline-block;
-  width: 59px; /* 28px + 3px gap + 28px */
+  width: 59px;
   height: 28px;
   flex-shrink: 0;
   user-select: none;
@@ -137,8 +137,7 @@ select {
 }
 
 .slider .check-icon,
-.slider .cross-icon,
-.slider img {
+.slider .cross-icon {
   position: absolute;
   top: 0;
   width: 28px;
@@ -146,7 +145,8 @@ select {
   box-sizing: border-box;
   object-fit: contain;
   z-index: 2;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
   user-select: none;
   -webkit-user-drag: none;
 }
@@ -157,7 +157,7 @@ select {
 }
 
 .slider .cross-icon {
-  left: 31px; /* 28px + 3px gap */
+  left: 31px;
   padding: 5px;
 }
 
@@ -177,6 +177,88 @@ select {
 
 .switch input:not(:checked) + .slider .knob {
   transform: translateX(31px); /* Slide 31px right */
+  background-color: rgb(201, 42, 42);
+  box-shadow: 0 2px 8px rgba(224, 44, 44, 0.35);
+}
+
+/* -- 3-Way Switch -- */
+.switch-3way {
+  position: relative;
+  display: inline-block;
+  width: 90px; /* 28 + 3 + 28 + 3 + 28 */
+  height: 28px;
+  flex-shrink: 0;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.slider-3way {
+  position: absolute;
+  inset: 0;
+  background-color: transparent;
+  border: none;
+  overflow: visible;
+}
+
+.slider-3way .minus-icon,
+.slider-3way .check-icon,
+.slider-3way .cross-icon {
+  position: absolute;
+  top: 0;
+  width: 28px;
+  height: 28px;
+  box-sizing: border-box;
+  object-fit: contain;
+  z-index: 2;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.slider-3way .minus-icon {
+  left: 0;
+  padding: 5px;
+}
+
+.slider-3way .check-icon {
+  left: 31px;
+  padding: 2px;
+}
+
+.slider-3way .cross-icon {
+  left: 62px;
+  padding: 5px;
+}
+
+.slider-3way .knob {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  z-index: 1;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease, box-shadow 0.25s ease;
+
+  background-color: rgb(226, 174, 4);
+  box-shadow: 0 2px 8px rgba(240, 175, 30, 0.4);
+}
+
+/* 3-Way Switch States */
+.switch-3way[data-state="neutral"] .knob {
+  transform: translateX(0px);
+  background-color: rgb(226, 174, 4);
+  box-shadow: 0 2px 8px rgba(240, 175, 30, 0.4);
+}
+
+.switch-3way[data-state="check"] .knob {
+  transform: translateX(31px);
+  background-color: rgb(30, 176, 30);
+  box-shadow: 0 2px 8px rgba(16, 211, 16, 0.35);
+}
+
+.switch-3way[data-state="cross"] .knob {
+  transform: translateX(62px);
   background-color: rgb(201, 42, 42);
   box-shadow: 0 2px 8px rgba(224, 44, 44, 0.35);
 }
