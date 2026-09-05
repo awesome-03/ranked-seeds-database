@@ -193,7 +193,45 @@
             <!-- OTHER OVERWORLD STRUCTURE EXTRAS -->
             <div class="structure-extras" id="extras-VILLAGE"></div>
             <div class="structure-extras" id="extras-BURIED_TREASURE"></div>
-            <div class="structure-extras" id="extras-DESERT_TEMPLE"></div>
+            <div class="structure-extras" id="extras-DESERT_TEMPLE">
+              <div id="dt-chest-loot-type">
+                <button type="button" id="dt-chest-loot-btn">
+                  <span>Chest Loot</span>
+                  <img src="assets/img/right_arrow.png" alt="open/close menu" class="menu-arrow">
+                </button>
+                <div id="dt-chest-loot-content" class="expandable-content">
+                  <div>
+                    <div class="expandable-content-label">
+                      <label>Diamond</label>
+                    </div>
+                    <div class="switch-3way" data-state="neutral">
+                      <input type="hidden" name="dt_diamond" value="neutral">
+                      <div class="slider-3way">
+                        <img src="assets/img/minus.png" class="minus-icon" data-set-state="neutral" alt="-">
+                        <img src="assets/img/checkmark.png" class="check-icon" data-set-state="check" alt="✓">
+                        <img src="assets/img/cross.png" class="cross-icon" data-set-state="cross" alt="✕">
+                        <span class="knob"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="expandable-content-label">
+                      <label>Egap</label>
+                    </div>
+                    <div class="switch-3way" data-state="neutral">
+                      <input type="hidden" name="dt_egap" value="neutral">
+                      <div class="slider-3way">
+                        <img src="assets/img/minus.png" class="minus-icon" data-set-state="neutral" alt="-">
+                        <img src="assets/img/checkmark.png" class="check-icon" data-set-state="check" alt="✓">
+                        <img src="assets/img/cross.png" class="cross-icon" data-set-state="cross" alt="✕">
+                        <span class="knob"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="structure-extras" id="extras-RUINED_PORTAL"></div>
           </div>
         </div>
