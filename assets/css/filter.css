@@ -32,25 +32,34 @@ select {
 }
 
 .overworld-extras {
-  display: none;
+  display: flex;
   flex-direction: column;
   row-gap: var(--normal-gap);
-  margin: var(--normal-gap) .75rem;
+  margin: 0 0.75rem;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: height 0.38s ease, margin 0.38s ease, opacity 0.38s ease;
 }
 
-.overworld-extras:has(.structure-extras.active),
 .overworld-extras.active {
-  display: flex;
+  margin: var(--normal-gap) 0.75rem;
+  opacity: 1;
 }
 
 .structure-extras {
   display: none;
   flex-direction: column;
   row-gap: var(--normal-gap);
+  min-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
 .structure-extras.active {
   display: flex;
+  opacity: 1;
 }
 
 .overworld-extras button {
@@ -71,7 +80,7 @@ select {
   width: 1rem;
   height: 1rem;
 
-  transition: transform 0.2s ease;
+  transition: transform 0.25s ease;
 }
 
 .overworld-extras button.open .menu-arrow {
@@ -79,15 +88,24 @@ select {
 }
 
 .expandable-content {
-  display: none;
-  padding: 0.5rem 0;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.32s ease;
 }
 
 .expandable-content.open {
-  display: block;
+  grid-template-rows: 1fr;
 }
 
-.expandable-content > div {
+.expandable-content-wrapper {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0.25rem 0;
+}
+
+.expandable-content-wrapper > div {
   display: flex;
   justify-content: space-between;
   align-items: center;

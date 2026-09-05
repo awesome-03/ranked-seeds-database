@@ -4,20 +4,60 @@ const overworldSelect = document.getElementById("overworlds");
 function updateOverworldExtras() {
   const selectedValue = overworldSelect ? overworldSelect.value : "ALL";
   const container = document.querySelector(".overworld-extras");
+  const nextExtra = document.getElementById(`extras-${selectedValue}`);
 
-  // Hide all structure extra sections
-  document.querySelectorAll(".structure-extras").forEach((el) => {
-    el.classList.remove("active");
-  });
+  if (!container) return;
 
-  // Show selected structure extra section if it exists and has content
-  const activeExtra = document.getElementById(`extras-${selectedValue}`);
-  if (activeExtra && activeExtra.children.length > 0) {
-    activeExtra.classList.add("active");
-    if (container) container.classList.add("active");
-  } else {
-    if (container) container.classList.remove("active");
+  // 1. Measure starting height of the container
+  const startHeight = container.getBoundingClientRect().height;
+
+  // 2. Temporarily fix height to startHeight in pixels to prevent jumping
+  container.style.height = `${startHeight}px`;
+  if (startHeight > 0) {
+    container.classList.add("active");
   }
+  void container.offsetHeight;
+
+  // 3. Swap active structure section
+  const hasContent = nextExtra && nextExtra.children.length > 0;
+
+  // Keep old content visible during collapse for a smooth shrink
+  if (hasContent) {
+    document.querySelectorAll(".structure-extras").forEach((el) => {
+      if (el !== nextExtra) el.classList.remove("active");
+    });
+    nextExtra.classList.add("active");
+  }
+
+  // 4. Measure natural target height with new content
+  container.style.height = "auto";
+  const targetHeight = container.getBoundingClientRect().height;
+
+  // 5. Reset to startHeight before starting CSS height transition
+  container.style.height = `${startHeight}px`;
+  void container.offsetHeight;
+
+  // 6. Transition height and active state simultaneously in ONE single motion
+  if (hasContent && targetHeight > 0) {
+    container.classList.add("active");
+    container.style.height = `${targetHeight}px`;
+  } else {
+    // Closing to 0: remove 'active' immediately so height, margin, and opacity animate together
+    container.classList.remove("active");
+    container.style.height = "0px";
+  }
+
+  clearTimeout(container._heightTimeout);
+  container._heightTimeout = setTimeout(() => {
+    if (hasContent && targetHeight > 0) {
+      container.style.height = "auto";
+    } else {
+      document.querySelectorAll(".structure-extras").forEach((el) => {
+        el.classList.remove("active");
+      });
+      container.style.height = "0px";
+    }
+  }, 380);
 }
 
 if (overworldSelect) {
