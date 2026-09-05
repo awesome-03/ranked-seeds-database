@@ -93,47 +93,40 @@ document.querySelectorAll(".overworld-extras button").forEach((btn) => {
   });
 });
 
-// 3-Way Switch Handler (Direct icon click + state cycle)
+// 3-Way Switch Handler (Seamless click regions with zero gaps)
 document.querySelectorAll(".switch-3way").forEach((sw) => {
   sw.addEventListener("click", (e) => {
-    const targetState = e.target.getAttribute("data-set-state");
-    const currentState = sw.getAttribute("data-state") || "neutral";
-    const hiddenInput = sw.querySelector("input[type='hidden']");
+    let targetState = e.target.getAttribute("data-set-state");
 
-    let newState = currentState;
-
-    if (targetState) {
-      newState = targetState;
-    } else {
-      if (currentState === "neutral") newState = "check";
-      else if (currentState === "check") newState = "cross";
-      else newState = "neutral";
+    if (!targetState) {
+      const rect = sw.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      if (clickX < 30) {
+        targetState = "neutral";
+      } else if (clickX < 60) {
+        targetState = "check";
+      } else {
+        targetState = "cross";
+      }
     }
 
-    sw.setAttribute("data-state", newState);
-    if (hiddenInput) hiddenInput.value = newState;
+    const hiddenInput = sw.querySelector("input[type='hidden']");
+    sw.setAttribute("data-state", targetState);
+    if (hiddenInput) hiddenInput.value = targetState;
   });
 });
 
-// 2-Way Switch Handler
+// 2-Way Switch Handler (Seamless click regions: left half = checkmark, right half = cross)
 document.querySelectorAll(".switch").forEach((sw) => {
   const checkbox = sw.querySelector("input[type='checkbox']");
-  const checkIcon = sw.querySelector(".check-icon");
-  const crossIcon = sw.querySelector(".cross-icon");
 
-  if (checkIcon && checkbox) {
-    checkIcon.addEventListener("click", (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      checkbox.checked = true;
-    });
-  }
+  sw.addEventListener("click", (e) => {
+    e.preventDefault();
+    const rect = sw.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
 
-  if (crossIcon && checkbox) {
-    crossIcon.addEventListener("click", (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      checkbox.checked = false;
-    });
-  }
+    if (checkbox) {
+      checkbox.checked = clickX < 30;
+    }
+  });
 });

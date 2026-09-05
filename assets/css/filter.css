@@ -175,7 +175,6 @@ select {
 .slider .cross-icon {
   position: absolute;
   top: 0;
-  width: 28px;
   height: 28px;
   box-sizing: border-box;
   object-fit: contain;
@@ -188,12 +187,14 @@ select {
 
 .slider .check-icon {
   left: 0;
-  padding: 2px;
+  width: 30px;
+  padding: 2px 3px 2px 2px;
 }
 
 .slider .cross-icon {
-  left: 31px;
-  padding: 5px;
+  left: 30px;
+  width: 29px;
+  padding: 5px 2px 5px 3px;
 }
 
 .slider .knob {
@@ -241,7 +242,7 @@ select {
 .slider-3way .cross-icon {
   position: absolute;
   top: 0;
-  width: 28px;
+  width: 30px;
   height: 28px;
   box-sizing: border-box;
   object-fit: contain;
@@ -252,17 +253,17 @@ select {
 
 .slider-3way .minus-icon {
   left: 0;
-  padding: 5px;
+  padding: 5px 6px 5px 5px;
 }
 
 .slider-3way .check-icon {
-  left: 31px;
-  padding: 2px;
+  left: 30px;
+  padding: 2px 3px;
 }
 
 .slider-3way .cross-icon {
-  left: 62px;
-  padding: 5px;
+  left: 60px;
+  padding: 5px 5px 5px 6px;
 }
 
 .slider-3way .knob {
