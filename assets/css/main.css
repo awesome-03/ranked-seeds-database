@@ -8,6 +8,7 @@
   --bg-light: hsl(0 0% 9%);
   --text: hsl(0 0% 95%);
   --text-muted: hsl(300 0% 69%);
+  --text-dimmed: hsla(0, 0%, 95%, 0.35);
   --highlight: hsl(330 0% 39%);
   --border: hsl(0 0% 28%);
   --border-muted: hsl(300 0% 18%);

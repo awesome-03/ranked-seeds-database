@@ -428,6 +428,13 @@ select {
   background-color: var(--highlight);
 }
 
+/* Dim text when state 0 is selected */
+.expandable-content-wrapper > div:has(.switch-4way-num[data-state="0"]) .expandable-content-label label,
+.switch-4way-num[data-state="0"] .slider-4way-num .num-item:not([data-set-state="0"]) {
+  color: var(--text-dimmed);
+  transition: color 0.2s ease;
+}
+
 /* Search Button */
 div#search-container {
   display: flex;
