@@ -209,7 +209,7 @@ export function executeQuery(config) {
     params.push(`%"${config.fortressBiome}_FORT"%`);
   }
 
-  sql += " LIMIT 100;";
+//   sql += " LIMIT 100;";
 
   console.log("Executing SQL Query:", sql, "Parameters:", params);
 
@@ -231,7 +231,7 @@ export function renderSeedResults(results) {
   if (!results || results.length === 0 || !results[0].values || results[0].values.length === 0) {
     dataList.innerHTML = `
       <div class="data-row-empty" style="text-align: center; padding: 2rem; color: var(--text-muted);">
-        No seeds found matching your filter criteria.
+        No seeds found with these filter settings.
       </div>
     `;
     return;
