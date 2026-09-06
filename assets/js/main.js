@@ -276,6 +276,39 @@ if (searchBtn) {
   searchBtn.addEventListener("click", handleSearch);
 }
 
+// --- Scrolling thing that doesn't fuckin work properly </3 ---
+function updateStickyFilterPosition() {
+  const filterSection = document.getElementById("filter");
+  if (!filterSection) return;
+
+  const viewportHeight = window.innerHeight;
+  const filterHeight = filterSection.offsetHeight;
+  const scrollY = window.scrollY;
+  const topMargin = 16;
+  const bottomMargin = 16;
+
+  const maxShift = filterHeight + topMargin + bottomMargin - viewportHeight;
+
+  if (maxShift <= 0) {
+    filterSection.style.top = `${topMargin}px`;
+  } else {
+    const currentTop = Math.max(topMargin - scrollY, viewportHeight - filterHeight - bottomMargin);
+    filterSection.style.top = `${currentTop}px`;
+  }
+}
+
+window.addEventListener("scroll", updateStickyFilterPosition, { passive: true });
+window.addEventListener("resize", updateStickyFilterPosition, { passive: true });
+
+document.querySelectorAll(".overworld-extras button, .bastion-extras button, #stables-rampart-toggle input").forEach((el) => {
+  el.addEventListener("click", () => {
+    setTimeout(updateStickyFilterPosition, 50);
+    setTimeout(updateStickyFilterPosition, 250);
+  });
+});
+
+updateStickyFilterPosition();
+
 initDatabase().then((success) => {
   if (success) {
     handleSearch();

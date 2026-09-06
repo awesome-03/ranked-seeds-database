@@ -4,21 +4,14 @@ section#filter {
   justify-self: end;
   position: sticky;
   top: 1rem;
-  max-height: calc(100vh - 2rem);
 }
 
 section#filter .bg-box {
   width: 420px;
-  max-height: calc(100vh - 2rem);
-  overflow-y: auto;
-  box-sizing: border-box;
 
   display: flex;
   flex-direction: column;
   row-gap: var(--normal-gap);
-
-  scrollbar-width: none;
-  /* scrollbar-color: var(--border-muted) transparent; */
 }
 
 .filter-title {
