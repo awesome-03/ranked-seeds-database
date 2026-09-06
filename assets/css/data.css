@@ -10,7 +10,7 @@ section#data .bg-box {
   row-gap: var(--normal-gap);
 
   max-width: 1000px;
-  height: 2000px;
+  /* height: 2000px; */
 }
 
 div#data-titles, .data-row {

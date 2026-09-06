@@ -1,3 +1,6 @@
+import { getFilterConfiguration } from "./filterParser.js";
+import { initDatabase, executeQuery, renderSeedResults } from "./db.js";
+
 // Overworld Dropdown selection handler
 const overworldSelect = document.getElementById("overworlds");
 
@@ -257,3 +260,24 @@ if (bastionSelect) {
   bastionSelect.addEventListener("change", updateBastionExtras);
   updateBastionExtras(); // Sync on load
 }
+
+// --- Database Search ---
+function handleSearch() {
+  const config = getFilterConfiguration();
+  console.log("Search config:", config);
+  window.lastSearchConfig = config;
+
+  const results = executeQuery(config);
+  renderSeedResults(results);
+}
+
+const searchBtn = document.querySelector("#search-container button");
+if (searchBtn) {
+  searchBtn.addEventListener("click", handleSearch);
+}
+
+initDatabase().then((success) => {
+  if (success) {
+    handleSearch();
+  }
+});
