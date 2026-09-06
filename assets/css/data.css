@@ -10,14 +10,14 @@ section#data .bg-box {
   row-gap: var(--normal-gap);
 
   max-width: 1000px;
-  /* height: 2000px; */
+  box-sizing: border-box;
 }
 
 div#data-titles, .data-row {
   display: grid;
-  grid-template-columns: 1fr 4fr 4fr 12fr;
-  justify-content: start;
+  grid-template-columns: 45px 210px 210px 1fr;
   align-items: center;
+  box-sizing: border-box;
 }
 
 div#data-titles {
@@ -30,7 +30,6 @@ div#data-titles {
   width: 100%;
   flex-direction: column;
   row-gap: var(--normal-gap);
-  /* margin: 2rem */
 }
 
 .data-row {
@@ -41,11 +40,63 @@ div#data-titles {
   box-shadow: 0px 4px 4px #00000030, 0px 12px 12px #00000015;
 }
 
+.data-row input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+
+  justify-self: center;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background-color: var(--bg-dark);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.data-row input[type="checkbox"]:hover,
+.data-row input[type="checkbox"]:active {
+  background-color: var(--border-muted);
+  border-color: var(--border);
+}
+
+.data-row input[type="checkbox"]:checked {
+  background-color: var(--green);
+  border-color: var(--green);
+}
+
+.data-row input[type="checkbox"]:checked:hover,
+.data-row input[type="checkbox"]:checked:active {
+  background-color: color-mix(in srgb, var(--green) 85%, black);
+  border-color: color-mix(in srgb, var(--green) 85%, black);
+}
+
+.data-row input[type="checkbox"]:checked::after {
+  content: "";
+  width: 5px;
+  height: 10px;
+  border: solid #ffffff;
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+  margin-bottom: 2px;
+}
+
 div#data-titles > p, .data-list p {
-  margin: 0px 1rem;
+  margin: 0 0.5rem;
+  white-space: nowrap;
+}
+
+.ow-seed, .nether-seed {
+  font-size: 1.1rem;
 }
 
 .notes-box {
+  width: calc(100% - 1.5rem);
   height: 23px;
   border: none;
   border-bottom: 1px dashed var(--border);
@@ -53,7 +104,11 @@ div#data-titles > p, .data-list p {
   color: var(--text);
   background-color: var(--bg-light);
 
+  margin-left: 0.5rem;
   margin-right: 1rem;
+  font-family: inherit;
+  font-size: 1.1rem;
+  box-sizing: border-box;
 }
 
 .notes-box:focus {

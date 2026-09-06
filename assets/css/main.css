@@ -11,7 +11,7 @@
   --text-dimmed: hsla(0, 0%, 95%, 0.35);
   --highlight: hsl(330 0% 39%);
   --border: hsl(0 0% 28%);
-  --border-muted: hsl(300 0% 18%);
+  --border-muted: hsl(0, 0%, 13%);
   --primary: hsl(51 42% 57%);
   --secondary: hsl(235 71% 79%);
   --danger: hsl(9 26% 64%);
