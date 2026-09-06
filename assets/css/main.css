@@ -18,6 +18,13 @@
   --success: hsl(146 17% 59%);
   --info: hsl(217 28% 65%);
 
+  --green: rgb(30, 176, 30);
+  --dark-green: rgba(16, 211, 16, 0.35);
+  --red: rgb(201, 42, 42);
+  --dark-red: rgba(227, 19, 19, 0.45);
+  --yellow: rgb(226, 174, 4);
+  --dark-yellow: rgba(240, 175, 30, 0.4);
+
   --normal-gap: 0.5rem;
 }
 

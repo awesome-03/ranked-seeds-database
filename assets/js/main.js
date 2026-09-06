@@ -126,8 +126,51 @@ document.querySelectorAll(".switch").forEach((sw) => {
     const clickX = e.clientX - rect.left;
 
     if (checkbox) {
-      checkbox.checked = clickX < 30;
+      const newState = clickX < 30;
+      if (checkbox.checked !== newState) {
+        checkbox.checked = newState;
+        checkbox.dispatchEvent(new Event("change"));
+      }
     }
+  });
+});
+
+// Stables Rampart Type Enable/Disable Switch Handler
+const stablesRampartToggle = document.querySelector("#stables-rampart-toggle input[type='checkbox']");
+const stablesRampartContent = document.getElementById("stables-rampart-type-content");
+
+if (stablesRampartToggle && stablesRampartContent) {
+  stablesRampartToggle.addEventListener("change", () => {
+    if (stablesRampartToggle.checked) {
+      stablesRampartContent.classList.add("open");
+    } else {
+      stablesRampartContent.classList.remove("open");
+    }
+  });
+}
+
+// 4-Way Numeric Switch Handler (0, 1, 2, 3)
+document.querySelectorAll(".switch-4way-num").forEach((sw) => {
+  sw.addEventListener("click", (e) => {
+    let targetState = e.target.getAttribute("data-set-state");
+
+    if (!targetState) {
+      const rect = sw.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      if (clickX < 30) {
+        targetState = "0";
+      } else if (clickX < 60) {
+        targetState = "1";
+      } else if (clickX < 90) {
+        targetState = "2";
+      } else {
+        targetState = "3";
+      }
+    }
+
+    const hiddenInput = sw.querySelector("input[type='hidden']");
+    sw.setAttribute("data-state", targetState);
+    if (hiddenInput) hiddenInput.value = targetState;
   });
 });
 

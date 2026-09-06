@@ -716,12 +716,67 @@
             </div>
             <div class="bastion-structure-extras" id="bastion-extras-STABLES">
               <div id="stables-rampart-type">
-                <button type="button" id="stables-rampart-btn">
+                <div class="expandable-header-toggle">
                   <span>Rampart Type</span>
-                  <img src="assets/img/right_arrow.png" alt="open/close menu" class="menu-arrow">
-                </button>
+                  <label class="switch" id="stables-rampart-toggle">
+                    <input type="checkbox">
+                    <span class="slider">
+                      <img src="assets/img/checkmark.png" class="check-icon" alt="✓">
+                      <img src="assets/img/cross.png" class="cross-icon" alt="✕">
+                      <span class="knob"></span>
+                    </span>
+                  </label>
+                </div>
                 <div id="stables-rampart-type-content" class="expandable-content">
-                  <div class="expandable-content-wrapper"></div>
+                  <div class="expandable-content-wrapper">
+                    <div>
+                      <div class="expandable-content-label">
+                        <label>Single</label>
+                      </div>
+                      <div class="switch-4way-num" data-state="1">
+                        <input type="hidden" name="stables_rampart_single" value="1">
+                        <div class="slider-4way-num">
+                          <span class="num-item" data-set-state="0">0</span>
+                          <span class="num-item" data-set-state="1">1</span>
+                          <span class="num-item" data-set-state="2">2</span>
+                          <span class="num-item" data-set-state="3">3</span>
+                          <span class="knob"></span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="expandable-content-label">
+                        <label>Double</label>
+                      </div>
+                      <div class="switch-4way-num" data-state="1">
+                        <input type="hidden" name="stables_rampart_double" value="1">
+                        <div class="slider-4way-num">
+                          <span class="num-item" data-set-state="0">0</span>
+                          <span class="num-item" data-set-state="1">1</span>
+                          <span class="num-item" data-set-state="2">2</span>
+                          <span class="num-item" data-set-state="3">3</span>
+                          <span class="knob"></span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="expandable-content-label">
+                        <label>Triple</label>
+                      </div>
+                      <div class="switch-4way-num" data-state="1">
+                        <input type="hidden" name="stables_rampart_triple" value="1">
+                        <div class="slider-4way-num">
+                          <span class="num-item" data-set-state="0">0</span>
+                          <span class="num-item" data-set-state="1">1</span>
+                          <span class="num-item" data-set-state="2">2</span>
+                          <span class="num-item" data-set-state="3">3</span>
+                          <span class="knob"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 

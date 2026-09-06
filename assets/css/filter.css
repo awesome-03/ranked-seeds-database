@@ -214,14 +214,14 @@ select {
   z-index: 1;
   transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease;
 
-  background-color: rgb(30, 176, 30);
-  box-shadow: 0 2px 8px rgba(16, 211, 16, 0.35);
+  background-color: var(--green);
+  box-shadow: 0 2px 8px var(--dark-green);
 }
 
 .switch input:not(:checked) + .slider .knob {
-  transform: translateX(31px); /* Slide 31px right */
-  background-color: rgb(201, 42, 42);
-  box-shadow: 0 2px 8px rgba(224, 44, 44, 0.35);
+  transform: translateX(31px);
+  background-color: var(--red);
+  box-shadow: 0 2px 8px var(--dark-red);
 }
 
 /* -- 3-Way Switch -- */
@@ -283,27 +283,27 @@ select {
   z-index: 1;
   transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease, box-shadow 0.25s ease;
 
-  background-color: rgb(226, 174, 4);
-  box-shadow: 0 2px 8px rgba(240, 175, 30, 0.4);
+  background-color: var(--yellow);
+  box-shadow: 0 2px 8px var(--dark-yellow);
 }
 
 /* 3-Way Switch States */
 .switch-3way[data-state="neutral"] .knob {
   transform: translateX(0px);
-  background-color: rgb(226, 174, 4);
-  box-shadow: 0 2px 8px rgba(240, 175, 30, 0.4);
+  background-color: var(--yellow);
+  box-shadow: 0 2px 8px var(--dark-yellow);
 }
 
 .switch-3way[data-state="check"] .knob {
   transform: translateX(31px);
-  background-color: rgb(30, 176, 30);
-  box-shadow: 0 2px 8px rgba(16, 211, 16, 0.35);
+  background-color: var(--green);
+  box-shadow: 0 2px 8px var(--dark-green);
 }
 
 .switch-3way[data-state="cross"] .knob {
   transform: translateX(62px);
-  background-color: rgb(201, 42, 42);
-  box-shadow: 0 2px 8px rgba(224, 44, 44, 0.35);
+  background-color: var(--red);
+  box-shadow: 0 2px 8px var(--dark-red);
 }
 
 /* Bastion Extras Container */
@@ -338,4 +338,92 @@ select {
   display: flex;
   opacity: 1;
   transform: translateY(0);
+}
+
+.expandable-header-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-dark);
+  height: 33px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* -- 4-Way Switch -- */
+.switch-4way-num {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  height: 28px;
+  flex-shrink: 0;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.slider-4way-num {
+  position: absolute;
+  inset: 0;
+  background-color: transparent;
+  border: none;
+  overflow: visible;
+}
+
+.slider-4way-num .num-item {
+  position: absolute;
+  top: 0;
+  width: 30px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  z-index: 2;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+  user-select: none;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.slider-4way-num .num-item[data-set-state="0"] { left: 0; }
+.slider-4way-num .num-item[data-set-state="1"] { left: 30px; }
+.slider-4way-num .num-item[data-set-state="2"] { left: 60px; }
+.slider-4way-num .num-item[data-set-state="3"] { left: 90px; }
+
+.slider-4way-num .knob {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  z-index: 1;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease, box-shadow 0.25s ease;
+
+  background-color: var(--highlight);
+}
+
+/* 4-Way States */
+.switch-4way-num[data-state="0"] .knob {
+  transform: translateX(1px);
+  background-color: var(--highlight);
+}
+
+.switch-4way-num[data-state="1"] .knob {
+  transform: translateX(31px);
+  background-color: var(--highlight);
+}
+
+.switch-4way-num[data-state="2"] .knob {
+  transform: translateX(61px);
+  background-color: var(--highlight);
+}
+
+.switch-4way-num[data-state="3"] .knob {
+  transform: translateX(91px);
+  background-color: var(--highlight);
 }
