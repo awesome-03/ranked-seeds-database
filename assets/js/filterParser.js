@@ -1,11 +1,26 @@
 export function getFilterConfiguration() {
+  const endSpawnValue = document.getElementById("end-spawns")?.value || "ALL";
+  let endSpawnRange = null;
+
+  if (endSpawnValue === "BURIED_PLATFORM") {
+    const r1 = document.getElementById("buried-range-1");
+    const r2 = document.getElementById("buried-range-2");
+    const v1 = r1 ? parseInt(r1.value, 10) : 52;
+    const v2 = r2 ? parseInt(r2.value, 10) : 61;
+    endSpawnRange = {
+      min: Math.min(v1, v2),
+      max: Math.max(v1, v2),
+    };
+  }
+
   const config = {
     // Primary Dropdowns
     overworld: document.getElementById("overworlds")?.value || "ALL",
     bastion: document.getElementById("bastions")?.value || "ALL",
     bastionBiome: document.getElementById("bastion-biomes")?.value || "ALL",
     fortressBiome: document.getElementById("fortress-biomes")?.value || "ALL",
-    endSpawn: document.getElementById("end-spawns")?.value || "ALL",
+    endSpawn: endSpawnValue,
+    endSpawnRange: endSpawnRange,
 
     overworldExtras: {},
     bastionExtras: {},

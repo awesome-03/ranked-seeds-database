@@ -433,6 +433,111 @@ select {
   transition: color 0.2s ease;
 }
 
+/* Buried slider */
+#buried-range-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0.75rem 0.75rem 0 0.75rem;
+  width: calc(100% - 1.5rem);
+  box-sizing: border-box;
+}
+
+.buried-slider {
+  position: relative;
+  width: 100%;
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.buried-slider .slider-track {
+  position: absolute;
+  width: 100%;
+  height: 6px;
+  background-color: var(--border-muted);
+  border-radius: 3px;
+  z-index: 1;
+}
+
+.buried-slider .slider-range-fill {
+  position: absolute;
+  height: 6px;
+  background-color: var(--text-muted);
+  border-radius: 3px;
+  z-index: 2;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0%;
+  right: 0%;
+}
+
+.buried-slider input[type="range"] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  background: none;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+  z-index: 3;
+  outline: none;
+}
+
+.buried-slider input[type="range"]::-webkit-slider-thumb {
+  pointer-events: auto;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: var(--text-muted);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.buried-slider input[type="range"]::-moz-range-thumb {
+  pointer-events: auto;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--text-muted);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.buried-slider input[type="range"]::-webkit-slider-thumb:hover,
+.buried-slider input[type="range"]::-webkit-slider-thumb:active {
+  transform: scale(1.2);
+  box-shadow: 0 0 10px var(--text-muted);
+}
+
+.buried-slider input[type="range"]::-moz-range-thumb:hover,
+.buried-slider input[type="range"]::-moz-range-thumb:active {
+  transform: scale(1.2);
+  box-shadow: 0 0 10px var(--text-muted);
+}
+
+.buried-range-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 0.2rem;
+}
+
+#buried-range-values {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
 /* Search Button */
 div#search-container {
   display: flex;

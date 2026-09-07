@@ -209,6 +209,25 @@ export function executeQuery(config) {
     params.push(`%"${config.fortressBiome}_FORT"%`);
   }
 
+  // End Spawn Filter
+  if (config.endSpawn && config.endSpawn !== "ALL") {
+    if (config.endSpawn === "BURIED_PLATFORM" && config.endSpawnRange) {
+      const { min, max } = config.endSpawnRange;
+      const buriedTags = [];
+      for (let y = min; y <= max; y++) {
+        buriedTags.push(`BURIED_${y}_PLATFORM`);
+      }
+      if (buriedTags.length > 0) {
+        const clauses = buriedTags.map(() => "tags LIKE ?").join(" OR ");
+        sql += ` AND (${clauses})`;
+        buriedTags.forEach((tag) => params.push(`%"${tag}"%`));
+      }
+    } else if (config.endSpawn !== "BURIED_PLATFORM") {
+      sql += " AND tags LIKE ?";
+      params.push(`%"${config.endSpawn}"%`);
+    }
+  }
+
 //   sql += " LIMIT 100;";
 
   console.log("Executing SQL Query:", sql, "Parameters:", params);

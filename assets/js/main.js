@@ -261,6 +261,75 @@ if (bastionSelect) {
   updateBastionExtras(); // Sync on load
 }
 
+// Buried End Slider Handler
+const endSpawnSelect = document.getElementById("end-spawns");
+const buriedRangeContainer = document.getElementById("buried-range-container");
+const buriedRange1 = document.getElementById("buried-range-1");
+const buriedRange2 = document.getElementById("buried-range-2");
+const buriedRangeValues = document.getElementById("buried-range-values");
+const buriedSliderFill = document.getElementById("slider-range-fill");
+
+function updateEndSpawnUI() {
+  if (!endSpawnSelect || !buriedRangeContainer) return;
+  if (endSpawnSelect.value === "BURIED_PLATFORM") {
+    buriedRangeContainer.style.display = "flex";
+  } else {
+    buriedRangeContainer.style.display = "none";
+  }
+  setTimeout(updateStickyFilterPosition, 50);
+}
+
+function updateBuriedSlider(e) {
+  if (!buriedRange1 || !buriedRange2 || !buriedRangeValues || !buriedSliderFill) return;
+
+  if (e && e.target) {
+    if (e.target === buriedRange1) {
+      buriedRange1.style.zIndex = "5";
+      buriedRange2.style.zIndex = "3";
+    } else if (e.target === buriedRange2) {
+      buriedRange2.style.zIndex = "5";
+      buriedRange1.style.zIndex = "3";
+    }
+  }
+
+  const v1 = parseInt(buriedRange1.value, 10);
+  const v2 = parseInt(buriedRange2.value, 10);
+
+  const minVal = Math.min(v1, v2);
+  const maxVal = Math.max(v1, v2);
+
+  buriedRangeValues.textContent = minVal === maxVal ? `${minVal}` : `${minVal} - ${maxVal}`;
+
+  const rangeMin = 52;
+  const rangeMax = 61;
+  const leftPercent = ((minVal - rangeMin) / (rangeMax - rangeMin)) * 100;
+  const rightPercent = 100 - ((maxVal - rangeMin) / (rangeMax - rangeMin)) * 100;
+
+  buriedSliderFill.style.left = `${leftPercent}%`;
+  buriedSliderFill.style.right = `${rightPercent}%`;
+}
+
+if (endSpawnSelect) {
+  endSpawnSelect.addEventListener("change", updateEndSpawnUI);
+  updateEndSpawnUI();
+}
+
+if (buriedRange1 && buriedRange2) {
+  buriedRange1.addEventListener("input", updateBuriedSlider);
+  buriedRange2.addEventListener("input", updateBuriedSlider);
+
+  buriedRange1.addEventListener("pointerdown", () => {
+    buriedRange1.style.zIndex = "5";
+    buriedRange2.style.zIndex = "3";
+  });
+  buriedRange2.addEventListener("pointerdown", () => {
+    buriedRange2.style.zIndex = "5";
+    buriedRange1.style.zIndex = "3";
+  });
+
+  updateBuriedSlider();
+}
+
 // --- Database Search ---
 function handleSearch() {
   const config = getFilterConfiguration();
