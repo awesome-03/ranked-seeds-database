@@ -1,4 +1,3 @@
-/* Collection Segment */
 section#collection {
   grid-column: 3;
   justify-self: start;
@@ -7,28 +6,242 @@ section#collection {
 }
 
 section#collection .bg-box {
-  position: sticky;
   width: 420px;
-  height: 600px;
+  min-height: 320px;
+  height: auto;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   row-gap: var(--normal-gap);
+  box-sizing: border-box;
+  padding: 1.5rem;
 }
 
+#collection-sets-list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.85rem;
+  width: 100%;
+  flex-grow: 1;
+  position: relative;
+}
+
+.set-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  border-radius: var(--normal-gap);
+  background-color: var(--set-color-played);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  overflow: hidden;
+  user-select: none;
+  position: relative;
+  border: 2px solid transparent;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, opacity 0.15s ease;
+  box-sizing: border-box;
+}
+
+.set-card.active {
+  border-color: var(--primary);
+  /* box-shadow: 0 0 8px var(--primary); */
+}
+
+.set-card.is-dragging {
+  z-index: 1000 !important;
+  opacity: 0.92;
+  box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.6);
+  border-color: var(--primary);
+  pointer-events: none;
+}
+
+/* Drag Set */
+.drag-handle {
+  width: 28px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  opacity: 0.4;
+  transition: opacity 0.15s ease;
+  flex-shrink: 0;
+  padding-left: 0.5rem;
+  box-sizing: border-box;
+  touch-action: none;
+}
+
+.drag-handle:hover,
+.drag-handle:active {
+  opacity: 1;
+  cursor: grabbing;
+}
+
+.dots-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 4px);
+  grid-template-rows: repeat(3, 4px);
+  gap: 3px;
+  pointer-events: none;
+}
+
+.dots-grid span {
+  width: 4px;
+  height: 4px;
+  background-color: var(--text);
+  border-radius: 50%;
+}
+
+/* Set Info */
+.set-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 0.75rem;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.set-name {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  width: fit-content;
+  max-width: 100%;
+  padding-right: 0.5rem;
+}
+
+.set-name-input {
+  background: none;
+  border: none;
+  border-bottom: 1px dashed var(--border);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  outline: none;
+  width: fit-content;
+  min-width: 100px;
+  max-width: 100%;
+  align-self: flex-start;
+  cursor: text;
+}
+
+.set-count {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+/* Enable / Disable Button */
+.set-toggle-btn {
+  width: 42px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.set-toggle-text {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.set-toggle-btn.enabled {
+  background-color: var(--green);
+  color: #ffffff;
+}
+
+.set-toggle-btn.disabled {
+  background-color: var(--red);
+  color: #ffffff;
+}
+
+/* Buttons Container */
 div#collection-buttons {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 1.5rem;
+  width: 100%;
 }
 
-section#collection button {
+/* Trash Can Button */
+#trash-set-btn {
+  background-color: var(--red);
+  border: 4px solid var(--red);
+  box-shadow: 0 0 8px var(--red);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 38.4px;
+  border-radius: var(--normal-gap);
+  transition: box-shadow 0.18s ease, transform 0.12s ease, opacity 0.18s ease;
+}
+
+#trash-set-btn:hover:not(:disabled) {
+  box-shadow: 0 0 16px var(--red);
+}
+
+#trash-set-btn:active:not(:disabled) {
+  transform: scale(0.96);
+  box-shadow: 0 0 11px var(--red);
+}
+
+#trash-set-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+#trash-set-btn img.trash-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* New Set Button */
+#add-set-btn {
   background-color: var(--primary);
   border: 4px solid var(--primary);
+  box-shadow: 0 0 8px var(--primary);
+  cursor: pointer;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.2rem 0.9rem;
+  border-radius: var(--normal-gap);
+  transition: box-shadow 0.18s ease, transform 0.12s ease;
 }
 
-section#collection button:hover {
-  background-color: var(--secondary);
-  border: 4px solid var(--secondary);
+#add-set-btn:hover {
+  background-color: var(--primary);
+  border: 4px solid var(--primary);
+  box-shadow: 0 0 16px var(--primary);
+}
+
+#add-set-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 0 11px var(--primary);
 }

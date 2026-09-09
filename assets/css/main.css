@@ -27,6 +27,16 @@
   --dark-yellow: rgba(240, 175, 30, 0.4);
 
   --normal-gap: 0.5rem;
+
+  --set-color-played: hsl(0 0% 9%);
+  --set-color-1: hsl(220 28% 12%);
+  --set-color-2: hsl(155 28% 12%);
+  --set-color-3: hsl(275 28% 12%);
+  --set-color-4: hsl(25 32% 12%);
+  --set-color-5: hsl(340 28% 12%);
+  --set-color-6: hsl(185 28% 12%);
+  --set-color-7: hsl(45 28% 12%);
+  --set-color-8: hsl(205 28% 12%);
 }
 
 html {

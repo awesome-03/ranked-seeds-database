@@ -1,5 +1,8 @@
 import { getFilterConfiguration } from "./filterParser.js";
 import { initDatabase, executeQuery, renderSeedResults } from "./db.js";
+import { initCollection } from "./collection.js";
+
+initCollection();
 
 // Overworld Dropdown selection handler
 const overworldSelect = document.getElementById("overworlds");
@@ -330,15 +333,27 @@ if (buriedRange1 && buriedRange2) {
   updateBuriedSlider();
 }
 
-// --- Database Search ---
-function handleSearch() {
-  const config = getFilterConfiguration();
-  console.log("Search config:", config);
-  window.lastSearchConfig = config;
+// Database Search
+let isSearching = false;
 
-  const results = executeQuery(config);
-  renderSeedResults(results);
+export function handleSearch() {
+  if (isSearching) return;
+  isSearching = true;
+  try {
+    if (typeof window.unselectActiveSet === "function") {
+      window.unselectActiveSet(true);
+    }
+    const config = getFilterConfiguration();
+    console.log("Search config:", config);
+    window.lastSearchConfig = config;
+
+    const results = executeQuery(config);
+    renderSeedResults(results);
+  } finally {
+    isSearching = false;
+  }
 }
+window.executeAndRenderSearch = handleSearch;
 
 const searchBtn = document.querySelector("#search-container button");
 if (searchBtn) {

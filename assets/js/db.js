@@ -1,3 +1,5 @@
+import { getActiveSet, getDisabledSeeds } from "./collection.js";
+
 let db = null;
 
 export async function initDatabase() {
@@ -257,19 +259,76 @@ export function renderSeedResults(results) {
   }
 
   const rows = results[0].values;
+  const activeSet = getActiveSet();
+  const savedSeeds = activeSet && activeSet.seeds ? activeSet.seeds : [];
+  const disabledSeeds = getDisabledSeeds();
 
+  let count = 0;
   rows.forEach(([owSeed, netherSeed]) => {
     const cleanOw = String(owSeed).replace(/^'|'$/g, "");
     const cleanNether = String(netherSeed).replace(/^'|'$/g, "");
+    
+    if (disabledSeeds.some((s) => s.owSeed === cleanOw && s.netherSeed === cleanNether)) return;
+
+    count++;
+    const savedSeedObj = savedSeeds.find((s) => s.owSeed === cleanOw && s.netherSeed === cleanNether);
+    const isChecked = Boolean(savedSeedObj);
+    const notesVal = savedSeedObj && savedSeedObj.notes ? savedSeedObj.notes : "";
 
     const rowDiv = document.createElement("div");
     rowDiv.className = "data-row";
     rowDiv.innerHTML = `
-      <input type="checkbox">
-      <p class="ow-seed">${cleanOw}</p>
-      <p class="nether-seed">${cleanNether}</p>
-      <input type="text" name="notes" class="notes-box"></input>
+      <input type="checkbox" ${isChecked ? "checked" : ""}>
+      <p class="ow-seed">${escapeHtml(cleanOw)}</p>
+      <p class="nether-seed">${escapeHtml(cleanNether)}</p>
+      <input type="text" name="notes" class="notes-box" value="${escapeHtml(notesVal)}"></input>
     `;
     dataList.appendChild(rowDiv);
   });
+
+  if (count === 0) {
+    dataList.innerHTML = `
+      <div class="data-row-empty" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+        No seeds found with these filter settings.
+      </div>
+    `;
+  }
+}
+
+// Render seeds inside a set
+export function renderSetSeeds(set) {
+  const dataList = document.querySelector(".data-list");
+  if (!dataList) return;
+
+  dataList.innerHTML = "";
+
+  if (!set || !set.seeds || set.seeds.length === 0) {
+    dataList.innerHTML = `
+      <div class="data-row-empty" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+        No seeds saved in "${escapeHtml(set ? set.name : "this set")}" yet. Check seeds in search results to save them here!
+      </div>
+    `;
+    return;
+  }
+
+  set.seeds.forEach((seed) => {
+    const rowDiv = document.createElement("div");
+    rowDiv.className = "data-row";
+    rowDiv.innerHTML = `
+      <input type="checkbox" checked>
+      <p class="ow-seed">${escapeHtml(seed.owSeed)}</p>
+      <p class="nether-seed">${escapeHtml(seed.netherSeed)}</p>
+      <input type="text" name="notes" class="notes-box" value="${escapeHtml(seed.notes || "")}"></input>
+    `;
+    dataList.appendChild(rowDiv);
+  });
+}
+
+function escapeHtml(str) {
+  return String(str || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
