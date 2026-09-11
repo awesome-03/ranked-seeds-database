@@ -119,8 +119,23 @@ export function getCheckedSeeds() {
   return checked;
 }
 
+export function syncSelectAllCheckbox() {
+  const selectAllCb = document.getElementById("select-all-checkbox");
+  if (!selectAllCb) return;
+
+  const rowCbs = document.querySelectorAll(".data-list input[type='checkbox']");
+  if (rowCbs.length === 0) {
+    selectAllCb.checked = false;
+    return;
+  }
+
+  const allChecked = Array.from(rowCbs).every((cb) => cb.checked);
+  selectAllCb.checked = allChecked;
+}
+
 // Trash Can state
 export function updateTrashButtonState() {
+  syncSelectAllCheckbox();
   const trashBtn = document.getElementById("trash-set-btn");
   if (!trashBtn) return;
 
@@ -593,6 +608,18 @@ function setupEventListeners() {
           },
         });
       }
+    });
+  }
+
+  const selectAllCb = document.getElementById("select-all-checkbox");
+  if (selectAllCb) {
+    selectAllCb.addEventListener("change", () => {
+      const isChecked = selectAllCb.checked;
+      const rowCbs = document.querySelectorAll(".data-list input[type='checkbox']");
+      rowCbs.forEach((cb) => {
+        cb.checked = isChecked;
+      });
+      updateTrashButtonState();
     });
   }
 
