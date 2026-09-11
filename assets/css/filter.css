@@ -497,7 +497,9 @@ select {
   background-color: var(--text-muted);
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  will-change: transform, box-shadow;
+  transform: translateZ(0);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 
 .buried-slider input[type="range"]::-moz-range-thumb {
@@ -510,19 +512,21 @@ select {
   background-color: var(--text-muted);
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  will-change: transform, box-shadow;
+  transform: translateZ(0);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 
 .buried-slider input[type="range"]::-webkit-slider-thumb:hover,
 .buried-slider input[type="range"]::-webkit-slider-thumb:active {
-  transform: scale(1.2);
-  box-shadow: 0 0 10px var(--text-muted);
+  transform: scale(1.11) translateZ(0);
+  box-shadow: 0 0 8px var(--text-muted);
 }
 
 .buried-slider input[type="range"]::-moz-range-thumb:hover,
 .buried-slider input[type="range"]::-moz-range-thumb:active {
-  transform: scale(1.2);
-  box-shadow: 0 0 10px var(--text-muted);
+  transform: scale(1.11) translateZ(0);
+  box-shadow: 0 0 8px var(--text-muted);
 }
 
 .buried-range-footer {
