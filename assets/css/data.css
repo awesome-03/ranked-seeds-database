@@ -115,3 +115,23 @@ div#data-titles > p, .data-list p {
 .notes-box:focus {
   outline: none;
 }
+
+#show-more-seeds-btn {
+  display: block;
+  border: 1px solid var(--border);
+  margin: 0.75rem auto;
+  padding: 0.5rem 1.25rem;
+  background-color: transparent;
+  border-radius: var(--normal-gap);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+#show-more-seeds-btn:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+}

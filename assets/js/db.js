@@ -243,13 +243,18 @@ export function executeQuery(config) {
 }
 
 let cachedSearchResults = null;
+let currentDisplayLimit = 50;
 
 // Show the database query results
-export function renderSeedResults(results) {
+export function renderSeedResults(results, isShowMore = false) {
   if (results !== undefined) {
     cachedSearchResults = results;
   }
   const targetResults = results !== undefined ? results : cachedSearchResults;
+
+  if (!isShowMore) {
+    currentDisplayLimit = 50;
+  }
 
   const dataList = document.querySelector(".data-list");
   if (!dataList) return;
@@ -271,16 +276,21 @@ export function renderSeedResults(results) {
   const disabledSeeds = getDisabledSeeds();
 
   let count = 0;
-  rows.forEach(([owSeed, netherSeed]) => {
+  let renderedCount = 0;
+
+  for (let i = 0; i < rows.length; i++) {
+    const [owSeed, netherSeed] = rows[i];
     const cleanOw = String(owSeed).replace(/^'|'$/g, "");
     const cleanNether = String(netherSeed).replace(/^'|'$/g, "");
-    
-    if (disabledSeeds.some((s) => s.owSeed === cleanOw && s.netherSeed === cleanNether)) return;
+
+    if (disabledSeeds.some((s) => s.owSeed === cleanOw && s.netherSeed === cleanNether)) continue;
 
     count++;
+    if (renderedCount >= currentDisplayLimit) continue;
+
+    renderedCount++;
     const savedSeedObj = savedSeeds.find((s) => s.owSeed === cleanOw && s.netherSeed === cleanNether);
     const notesVal = savedSeedObj && savedSeedObj.notes ? savedSeedObj.notes : "";
-    const isChecked = Boolean(savedSeedObj);
     const rowDiv = document.createElement("div");
     rowDiv.className = "data-row";
     rowDiv.innerHTML = `
@@ -290,7 +300,7 @@ export function renderSeedResults(results) {
       <input type="text" name="notes" class="notes-box" value="${escapeHtml(notesVal)}"></input>
     `;
     dataList.appendChild(rowDiv);
-  });
+  }
 
   if (count === 0) {
     dataList.innerHTML = `
@@ -298,6 +308,17 @@ export function renderSeedResults(results) {
         No seeds found with these filter settings.
       </div>
     `;
+  } else if (count > renderedCount) {
+    const showMoreBtn = document.createElement("button");
+    showMoreBtn.id = "show-more-seeds-btn";
+    showMoreBtn.textContent = `Show more (${renderedCount} of ${count.toLocaleString()})`;
+
+    showMoreBtn.addEventListener("click", () => {
+      currentDisplayLimit += 50;
+      renderSeedResults(undefined, true);
+    });
+
+    dataList.appendChild(showMoreBtn);
   }
   if (typeof window.updateTrashButtonState === "function") {
     window.updateTrashButtonState();

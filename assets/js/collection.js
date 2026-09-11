@@ -106,10 +106,10 @@ window.unselectActiveSet = unselectActiveSet;
 // Return list of currently checked seeds
 export function getCheckedSeeds() {
   const checked = [];
-  const rows = document.querySelectorAll(".data-list .data-row");
-  rows.forEach((row) => {
-    const cb = row.querySelector("input[type='checkbox']");
-    if (cb && cb.checked) {
+  const checkedBoxes = document.querySelectorAll(".data-list input[type='checkbox']:checked");
+  checkedBoxes.forEach((cb) => {
+    const row = cb.closest(".data-row");
+    if (row) {
       const owSeed = row.querySelector(".ow-seed")?.textContent.trim() || "";
       const netherSeed = row.querySelector(".nether-seed")?.textContent.trim() || "";
       const notes = row.querySelector(".notes-box")?.value || "";
@@ -265,15 +265,6 @@ function renderCollection() {
         set.enabled = !set.enabled;
         saveSets();
         renderCollection();
-
-        // Re-render search results using cached query output if in search mode
-        if (!activeSetId) {
-          if (typeof window.renderSavedSearchResults === "function") {
-            window.renderSavedSearchResults();
-          } else if (typeof window.executeAndRenderSearch === "function") {
-            window.executeAndRenderSearch();
-          }
-        }
       });
     }
 
@@ -590,7 +581,7 @@ function setupEventListeners() {
         // Confirm Deletion of Active Set
         showPopUp({
           title: "Delete Set",
-          message: `Are you sure you want to delete "${activeSet.name}"? This action cannot be undone.`,
+          message: `Are you sure you want to delete "${activeSet.name}"?`,
           confirmText: "Delete Set",
           confirmClass: "",
           onConfirm: () => {
