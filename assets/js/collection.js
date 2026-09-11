@@ -151,7 +151,7 @@ export function updateTrashButtonState() {
       trashBtn.title = `The Played set cannot be deleted`;
     } else {
       trashBtn.disabled = false;
-      trashBtn.title = `Delete "${activeSet.name}" set`;
+      trashBtn.title = `Delete set "${activeSet.name}"`;
     }
   } else {
     trashBtn.disabled = true;
