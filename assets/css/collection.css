@@ -196,7 +196,6 @@ div#collection-buttons div#btns-container {
 #trash-set-btn {
   background-color: var(--red);
   border: 4px solid var(--red);
-  box-shadow: 0 0 8px var(--red);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -207,18 +206,18 @@ div#collection-buttons div#btns-container {
   font-weight: 600;
   font-family: inherit;
   border-radius: var(--normal-gap);
-  transition: box-shadow 0.18s ease, transform 0.12s ease, opacity 0.18s ease;
+  transition: box-shadow 0.27s ease-out, transform 0.12s ease, opacity 0.18s ease;
   flex-shrink: 0;
   box-sizing: border-box;
 }
 
 #trash-set-btn:hover:not(:disabled) {
-  box-shadow: 0 0 16px var(--red);
+  box-shadow: 0 0 8px var(--red);
 }
 
 #trash-set-btn:active:not(:disabled) {
   transform: scale(0.96);
-  box-shadow: 0 0 11px var(--red);
+  box-shadow: 0 0 5px var(--red);
 }
 
 #trash-set-btn:disabled {
@@ -238,7 +237,6 @@ div#collection-buttons div#btns-container {
 #add-to-set-btn {
   background-color: var(--secondary);
   border: 4px solid var(--secondary);
-  box-shadow: 0 0 8px var(--secondary);
   cursor: pointer;
   color: var(--text);
   font-family: inherit;
@@ -250,7 +248,7 @@ div#collection-buttons div#btns-container {
   align-items: center;
   justify-content: center;
   border-radius: var(--normal-gap);
-  transition: box-shadow 0.18s ease, transform 0.12s ease, opacity 0.18s ease;
+  transition: box-shadow 0.27s ease-out, transform 0.12s ease, opacity 0.18s ease;
   white-space: nowrap;
   box-sizing: border-box;
 }
@@ -258,12 +256,12 @@ div#collection-buttons div#btns-container {
 #add-to-set-btn:hover:not(:disabled) {
   background-color: var(--secondary);
   border: 4px solid var(--secondary);
-  box-shadow: 0 0 16px var(--secondary);
+  box-shadow: 0 0 8px var(--secondary);
 }
 
 #add-to-set-btn:active:not(:disabled) {
   transform: scale(0.97);
-  box-shadow: 0 0 11px var(--secondary);
+  box-shadow: 0 0 5px var(--secondary);
 }
 
 #add-to-set-btn:disabled {
@@ -276,7 +274,6 @@ div#collection-buttons div#btns-container {
 #add-set-btn {
   background-color: var(--primary);
   border: 4px solid var(--primary);
-  box-shadow: 0 0 8px var(--primary);
   cursor: pointer;
   color: var(--text);
   font-family: inherit;
@@ -288,7 +285,7 @@ div#collection-buttons div#btns-container {
   align-items: center;
   justify-content: center;
   border-radius: var(--normal-gap);
-  transition: box-shadow 0.18s ease, transform 0.12s ease;
+  transition: box-shadow 0.27s ease-out, transform 0.12s ease;
   white-space: nowrap;
   box-sizing: border-box;
 }
@@ -296,15 +293,15 @@ div#collection-buttons div#btns-container {
 #add-set-btn:hover {
   background-color: var(--primary);
   border: 4px solid var(--primary);
-  box-shadow: 0 0 16px var(--primary);
+  box-shadow: 0 0 8px var(--primary);
 }
 
 #add-set-btn:active {
   transform: scale(0.97);
-  box-shadow: 0 0 11px var(--primary);
+  box-shadow: 0 0 5px var(--primary);
 }
 
-/* Download Upload */
+/* Backup Download and Upload Buttons */
 #backup-download-btn {
   flex: 1;
   display: inline-flex;
@@ -320,20 +317,19 @@ div#collection-buttons div#btns-container {
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 0 8px var(--secondary);
-  transition: box-shadow 0.18s ease, transform 0.12s ease;
+  transition: box-shadow 0.27s ease-out, transform 0.12s ease;
   box-sizing: border-box;
 }
 
 #backup-download-btn:hover {
   background-color: var(--secondary);
   border: 4px solid var(--secondary);
-  box-shadow: 0 0 16px var(--secondary);
+  box-shadow: 0 0 8px var(--secondary);
 }
 
 #backup-download-btn:active {
   transform: scale(0.97);
-  box-shadow: 0 0 11px var(--secondary);
+  box-shadow: 0 0 5px var(--secondary);
 }
 
 #backup-upload-btn {
@@ -351,20 +347,19 @@ div#collection-buttons div#btns-container {
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 0 8px var(--primary);
-  transition: box-shadow 0.18s ease, transform 0.12s ease;
+  transition: box-shadow 0.27s ease-out, transform 0.12s ease;
   box-sizing: border-box;
 }
 
 #backup-upload-btn:hover {
   background-color: var(--primary);
   border: 4px solid var(--primary);
-  box-shadow: 0 0 16px var(--primary);
+  box-shadow: 0 0 8px var(--primary);
 }
 
 #backup-upload-btn:active {
   transform: scale(0.97);
-  box-shadow: 0 0 11px var(--primary);
+  box-shadow: 0 0 5px var(--primary);
 }
 
 /* Pop Ups */
@@ -459,7 +454,7 @@ div#pop-up-actions button {
   font-weight: 600;
   cursor: pointer;
   border: 2px solid transparent;
-  transition: all 0.15s ease;
+  transition: box-shadow 0.27s ease-out, background-color 0.15s ease, color 0.15s ease;
 }
 
 #pop-up-cancel-btn {
@@ -476,18 +471,16 @@ div#pop-up-actions button {
 #pop-up-confirm-btn {
   background-color: var(--red);
   color: #ffffff;
-  box-shadow: 0 0 8px var(--red);
 }
 
 #pop-up-confirm-btn:hover {
-  box-shadow: 0 0 16px var(--red);
+  box-shadow: 0 0 8px var(--red);
 }
 
 #pop-up-confirm-btn.green-btn {
   background-color: var(--green);
-  box-shadow: 0 0 8px var(--green);
 }
 
 #pop-up-confirm-btn.green-btn:hover {
-  box-shadow: 0 0 16px var(--green);
+  box-shadow: 0 0 8px var(--green);
 }
