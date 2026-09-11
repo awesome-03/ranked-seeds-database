@@ -94,3 +94,137 @@ button {
   color: var(--text);
   border-radius: var(--normal-gap);
 }
+
+@media (max-width: 1944px) {
+  main {
+    grid-template-columns: minmax(320px, 420px) minmax(650px, 1000px) minmax(320px, 420px);
+    gap: 1.5rem;
+    padding: 1rem 1.5rem;
+  }
+
+  section#filter {
+    justify-self: end;
+    width: 100%;
+  }
+
+  section#filter .bg-box {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  section#data {
+    width: 100%;
+  }
+
+  section#data .bg-box {
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  section#collection {
+    justify-self: start;
+    width: 100%;
+  }
+
+  section#collection .bg-box {
+    width: 100%;
+    max-width: 420px;
+  }
+}
+
+@media (max-width: 1643px) {
+  html {
+    font-size: 12px;
+  }
+
+  main {
+    grid-template-columns: minmax(220px, 320px) minmax(450px, 800px) minmax(220px, 320px);
+    gap: 1.25rem;
+    padding: 1rem 1.25rem;
+  }
+
+  section#filter {
+    justify-self: end;
+    width: 100%;
+  }
+
+  section#filter .bg-box {
+    width: 100%;
+    max-width: 320px;
+    padding: 1.25rem;
+  }
+
+  select {
+    max-width: 170px;
+  }
+
+  section#data {
+    width: 100%;
+  }
+
+  section#data .bg-box {
+    width: 100%;
+    max-width: 800px;
+    padding: 1.25rem 1.5rem;
+  }
+
+  div#data-titles, .data-row {
+    grid-template-columns: 35px minmax(140px, 180px) minmax(140px, 180px) minmax(100px, 1fr);
+  }
+
+  .data-row {
+    height: 42px;
+    overflow: hidden;
+  }
+
+  .notes-box {
+    width: calc(100% - 1rem);
+    max-width: calc(100% - 1rem);
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .ow-seed, .nether-seed {
+    font-size: 1rem;
+  }
+
+  section#collection {
+    justify-self: start;
+    width: 100%;
+  }
+
+  section#collection .bg-box {
+    width: 100%;
+    max-width: 320px;
+    padding: 1.25rem;
+    min-height: 250px;
+  }
+
+  .set-card {
+    height: 56px;
+  }
+
+  #collection-sets-list {
+    row-gap: 0.6rem;
+  }
+
+  div#collection-buttons {
+    gap: 0.4rem;
+  }
+
+  div#collection-buttons div#btns-container {
+    gap: 0.4rem;
+  }
+
+  #trash-set-btn, #add-to-set-btn, #add-set-btn {
+    height: 34px;
+    padding: 0 0.65rem;
+    font-size: 0.85rem;
+  }
+
+  #trash-set-btn {
+    width: 36px;
+    min-width: 36px;
+    flex-shrink: 0;
+  }
+}

@@ -25,7 +25,8 @@ select {
   background-color: var(--bg-light);
   border: 4px solid var(--bg-light);
   border-radius: var(--normal-gap);
-  width: 210px;
+  width: 100%;
+  max-width: 210px;
   box-sizing: border-box;
   cursor: pointer;
 }
