@@ -97,6 +97,7 @@ export function unselectActiveSet(skipReSearch = false) {
     const dataBgBox = document.querySelector("section#data .bg-box");
     if (dataBgBox) {
       dataBgBox.style.backgroundColor = "var(--bg-dark)";
+      dataBgBox.style.setProperty("--row-bg", "var(--bg-light)");
     }
   }
 }
@@ -401,6 +402,16 @@ function makeSetNameEditable(nameSpan, set) {
   });
 }
 
+function getCardColorVar(colorVar) {
+  if (!colorVar) return "var(--bg-light)";
+  if (colorVar.includes("played")) return "var(--set-card-played)";
+  const match = colorVar.match(/--set-color-(\d+)/);
+  if (match) {
+    return `var(--set-card-${match[1]})`;
+  }
+  return "var(--bg-light)";
+}
+
 // Sync Data Section background color and contents with active set
 export function syncActiveSetToDataSection() {
   const activeSet = getActiveSet();
@@ -410,6 +421,7 @@ export function syncActiveSetToDataSection() {
     // Search Results mode
     if (dataBgBox) {
       dataBgBox.style.backgroundColor = "var(--bg-dark)";
+      dataBgBox.style.setProperty("--row-bg", "var(--bg-light)");
     }
     if (typeof window.executeAndRenderSearch === "function") {
       window.executeAndRenderSearch();
@@ -420,11 +432,18 @@ export function syncActiveSetToDataSection() {
 
   // Set View mode
   if (dataBgBox) {
-    dataBgBox.style.backgroundColor = activeSet.colorVar || activeSet.colorVal || "var(--bg-dark)";
+    const bgCol = activeSet.colorVar || activeSet.colorVal || "var(--bg-dark)";
+    dataBgBox.style.backgroundColor = bgCol;
+    dataBgBox.style.setProperty("--row-bg", getCardColorVar(bgCol));
   }
 
   renderSetSeeds(activeSet);
   updateTrashButtonState();
+}
+
+function getNextSetColor() {
+  const customSetCount = sets.filter((s) => s.id !== "played").length;
+  return PREDETERMINED_COLORS[customSetCount % PREDETERMINED_COLORS.length];
 }
 
 // Set up listeners
@@ -432,12 +451,12 @@ function setupEventListeners() {
   const addBtn = document.getElementById("add-set-btn");
   if (addBtn) {
     addBtn.addEventListener("click", () => {
-      const randomColor = PREDETERMINED_COLORS[Math.floor(Math.random() * PREDETERMINED_COLORS.length)];
+      const nextColor = getNextSetColor();
       const newSet = {
         id: "set_" + Date.now(),
         name: "New Set",
         enabled: true,
-        colorVar: randomColor,
+        colorVar: nextColor,
         seeds: [],
       };
 
@@ -487,12 +506,12 @@ function setupEventListeners() {
 
           let targetSet = null;
           if (targetId === "__new_set__") {
-            const randomColor = PREDETERMINED_COLORS[Math.floor(Math.random() * PREDETERMINED_COLORS.length)];
+            const nextColor = getNextSetColor();
             targetSet = {
               id: "set_" + Date.now(),
               name: "New Set",
               enabled: true,
-              colorVar: randomColor,
+              colorVar: nextColor,
               seeds: [],
             };
             sets.push(targetSet);

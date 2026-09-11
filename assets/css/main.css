@@ -32,14 +32,24 @@
   --normal-gap: 0.5rem;
 
   --set-color-played: hsl(0 0% 9%);
-  --set-color-1: hsl(220 28% 12%);
+  --set-color-1: hsl(235 28% 12%);
   --set-color-2: hsl(155 28% 12%);
   --set-color-3: hsl(275 28% 12%);
-  --set-color-4: hsl(25 32% 12%);
+  --set-color-4: hsl(25 28% 12%);
   --set-color-5: hsl(340 28% 12%);
   --set-color-6: hsl(185 28% 12%);
   --set-color-7: hsl(45 28% 12%);
   --set-color-8: hsl(205 28% 12%);
+
+  --set-card-played: hsl(0 0% 17%);
+  --set-card-1: hsl(235 28% 20%);
+  --set-card-2: hsl(155 28% 20%);
+  --set-card-3: hsl(275 28% 20%);
+  --set-card-4: hsl(25 28% 20%);
+  --set-card-5: hsl(340 28% 20%);
+  --set-card-6: hsl(185 28% 20%);
+  --set-card-7: hsl(45 28% 20%);
+  --set-card-8: hsl(205 28% 20%);
 }
 
 html {
