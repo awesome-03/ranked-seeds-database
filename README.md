@@ -1,7 +1,7 @@
 # MCSR Ranked SeedBank
 
-I put together ~2000 ranked seeds in a database and made a site with all of the filter options that are easily findable in the API.
-https://awesome-03.github.io/ranked-seedbank/
+I put together ~2000 ranked seeds in a database and made a site with all of the filter options that are easily findable in the API.  
+[awesomedev.site/ranked-seedbank](https://awesomedev.site/ranked-seedbank/)
 
 ## Explanations
 
@@ -16,9 +16,11 @@ https://awesome-03.github.io/ranked-seedbank/
 
 ## Previews
 
-<p align="center">
+<div align="center">
   <img src="assets/img/previews/data.png" alt="Data View" width="688" />
-  <br />
-  <img src="assets/img/previews/filter.png" alt="Filter" width="340" valign="top" />
-  <img src="assets/img/previews/sets.png" alt="Sets" width="340" valign="top" />
-</p>
+  
+  <div style="display: flex; justify-content: center; align-items: flex-start; gap: 8px;">
+    <img src="assets/img/previews/filter.png" alt="Filter" width="340" />
+    <img src="assets/img/previews/sets.png" alt="Sets" width="340" />
+  </div>
+</div>
