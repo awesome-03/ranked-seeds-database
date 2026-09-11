@@ -243,12 +243,14 @@ export function executeQuery(config) {
 }
 
 let cachedSearchResults = null;
+let cachedDisabledSeeds = [];
 let currentDisplayLimit = 50;
 
 // Show the database query results
-export function renderSeedResults(results, isShowMore = false) {
-  if (results !== undefined) {
+export function renderSeedResults(results, isShowMore = false, isNewSearch = false) {
+  if (isNewSearch) {
     cachedSearchResults = results;
+    cachedDisabledSeeds = getDisabledSeeds();
   }
   const targetResults = results !== undefined ? results : cachedSearchResults;
 
@@ -273,7 +275,7 @@ export function renderSeedResults(results, isShowMore = false) {
   const rows = targetResults[0].values;
   const activeSet = getActiveSet();
   const savedSeeds = activeSet && activeSet.seeds ? activeSet.seeds : [];
-  const disabledSeeds = getDisabledSeeds();
+  const disabledSeeds = cachedDisabledSeeds;
 
   let count = 0;
   let renderedCount = 0;
@@ -315,7 +317,7 @@ export function renderSeedResults(results, isShowMore = false) {
 
     showMoreBtn.addEventListener("click", () => {
       currentDisplayLimit += 50;
-      renderSeedResults(undefined, true);
+      renderSeedResults(undefined, true, false);
     });
 
     dataList.appendChild(showMoreBtn);
@@ -326,7 +328,7 @@ export function renderSeedResults(results, isShowMore = false) {
 }
 
 export function renderSavedSearchResults() {
-  renderSeedResults(cachedSearchResults);
+  renderSeedResults(undefined, false, false);
 }
 window.renderSavedSearchResults = renderSavedSearchResults;
 

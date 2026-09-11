@@ -348,7 +348,7 @@ export function handleSearch() {
     window.lastSearchConfig = config;
 
     const results = executeQuery(config);
-    renderSeedResults(results);
+    renderSeedResults(results, false, true);
   } finally {
     isSearching = false;
   }
