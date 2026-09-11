@@ -336,7 +336,7 @@ div#pop-up {
 }
 
 @keyframes scaleUp {
-  from { transform: scale(0.92); opacity: 0; }
+  from { transform: scale(0.95); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 

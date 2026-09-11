@@ -330,10 +330,16 @@ export function renderSavedSearchResults() {
 }
 window.renderSavedSearchResults = renderSavedSearchResults;
 
+let currentSetDisplayLimit = 50;
+
 // Render seeds inside a set
-export function renderSetSeeds(set) {
+export function renderSetSeeds(set, isShowMore = false) {
   const dataList = document.querySelector(".data-list");
   if (!dataList) return;
+
+  if (!isShowMore) {
+    currentSetDisplayLimit = 50;
+  }
 
   dataList.innerHTML = "";
 
@@ -349,7 +355,11 @@ export function renderSetSeeds(set) {
     return;
   }
 
-  set.seeds.forEach((seed) => {
+  const totalSeeds = set.seeds.length;
+  const renderedCount = Math.min(totalSeeds, currentSetDisplayLimit);
+
+  for (let i = 0; i < renderedCount; i++) {
+    const seed = set.seeds[i];
     const rowDiv = document.createElement("div");
     rowDiv.className = "data-row";
     rowDiv.innerHTML = `
@@ -359,7 +369,20 @@ export function renderSetSeeds(set) {
       <input type="text" name="notes" class="notes-box" value="${escapeHtml(seed.notes || "")}"></input>
     `;
     dataList.appendChild(rowDiv);
-  });
+  }
+
+  if (totalSeeds > renderedCount) {
+    const showMoreBtn = document.createElement("button");
+    showMoreBtn.id = "show-more-seeds-btn";
+    showMoreBtn.textContent = `Show more (${renderedCount} of ${totalSeeds.toLocaleString()})`;
+
+    showMoreBtn.addEventListener("click", () => {
+      currentSetDisplayLimit += 50;
+      renderSetSeeds(set, true);
+    });
+
+    dataList.appendChild(showMoreBtn);
+  }
 
   if (typeof window.updateTrashButtonState === "function") {
     window.updateTrashButtonState();
