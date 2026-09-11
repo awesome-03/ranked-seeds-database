@@ -161,7 +161,7 @@ export function updateTrashButtonState() {
 window.updateTrashButtonState = updateTrashButtonState;
 
 // Pop Up
-export function showPopUp({ title, message, bodyHTML, confirmText, confirmClass, onConfirm, cancelText }) {
+export function showPopUp({ title, message, bodyHTML, confirmText, confirmClass, onConfirm, cancelText, hideConfirmBtn = false, hideCancelBtn = false }) {
   const overlay = document.getElementById("pop-up");
   const titleEl = document.getElementById("pop-up-title");
   const msgEl = document.getElementById("pop-up-message");
@@ -179,12 +179,16 @@ export function showPopUp({ title, message, bodyHTML, confirmText, confirmClass,
   cancelBtn.textContent = cancelText || "Cancel";
 
   confirmBtn.className = confirmClass || "";
+  confirmBtn.style.display = hideConfirmBtn ? "none" : "inline-block";
+  cancelBtn.style.display = hideCancelBtn ? "none" : "inline-block";
 
   overlay.style.display = "flex";
 
   const closePopUp = () => {
     overlay.style.display = "none";
     confirmBtn.className = "";
+    confirmBtn.style.display = "";
+    cancelBtn.style.display = "";
     confirmBtn.onclick = null;
     cancelBtn.onclick = null;
   };
@@ -649,7 +653,128 @@ function setupEventListeners() {
       }
     });
   }
+
+  const backupBtn = document.getElementById("backup-btn");
+  if (backupBtn) {
+    backupBtn.addEventListener("click", () => {
+      openBackupModal();
+    });
+  }
 }
+
+export function openBackupModal() {
+  const bodyHTML = `
+    <div style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 1rem; width: 100%; box-sizing: border-box;">
+      <button id="backup-download-btn">
+        <img src="assets/img/download.png" alt="Download" style="width: 18px; height: 18px; object-fit: contain;">
+        <span>Download</span>
+      </button>
+
+      <button id="backup-upload-btn">
+        <img src="assets/img/upload.png" alt="Upload" style="width: 18px; height: 18px; object-fit: contain;">
+        <span>Upload</span>
+      </button>
+
+      <input type="file" id="backup-import-file" accept=".json" style="display: none;">
+    </div>
+  `;
+
+  showPopUp({
+    title: "Backup and Restore",
+    message: "Backup your set data in case your browser's local storage gets deleted",
+    bodyHTML,
+    cancelText: "Close",
+    hideConfirmBtn: true,
+  });
+
+  setTimeout(() => {
+    const downloadBtn = document.getElementById("backup-download-btn");
+    if (downloadBtn) {
+      downloadBtn.addEventListener("click", () => {
+        const backupData = {
+          version: 1,
+          exportedAt: new Date().toISOString(),
+          sets: sets,
+        };
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+        const downloadAnchor = document.createElement("a");
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", `mcsr_seedbank_sets.json`);
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+      });
+    }
+
+    const uploadBtn = document.getElementById("backup-upload-btn");
+    const fileInput = document.getElementById("backup-import-file");
+
+    if (uploadBtn && fileInput) {
+      uploadBtn.addEventListener("click", () => fileInput.click());
+
+      fileInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          try {
+            const parsed = JSON.parse(event.target.result);
+            const importedSets = Array.isArray(parsed) ? parsed : (parsed.sets || null);
+
+            if (!importedSets || !Array.isArray(importedSets)) {
+              alert("Invalid JSON format. Backup file must contain valid set data.");
+              return;
+            }
+
+            importedSets.forEach((importedSet) => {
+              const existing = sets.find((s) => s.id === importedSet.id || s.name === importedSet.name);
+              if (existing) {
+                if (importedSet.seeds && Array.isArray(importedSet.seeds)) {
+                  if (!existing.seeds) existing.seeds = [];
+                  importedSet.seeds.forEach((seed) => {
+                    const hasSeed = existing.seeds.some(
+                      (s) => s.owSeed === seed.owSeed && s.netherSeed === seed.netherSeed
+                    );
+                    if (!hasSeed) existing.seeds.push(seed);
+                  });
+                }
+              } else {
+                sets.push(importedSet);
+              }
+            });
+
+            const hasPlayed = sets.some((s) => s.id === "played");
+            if (!hasPlayed) {
+              sets.unshift({ ...DEFAULT_PLAYED_SET });
+            }
+
+            saveSets();
+            renderCollection();
+            syncActiveSetToDataSection();
+
+            const overlay = document.getElementById("pop-up");
+            if (overlay) overlay.style.display = "none";
+
+            setTimeout(() => {
+              showPopUp({
+                title: "Upload Successful",
+                message: "Successfully merged backup data",
+                confirmText: "OK",
+                confirmClass: "green-btn",
+                hideCancelBtn: true,
+              });
+            }, 150);
+          } catch (err) {
+            alert("Error reading JSON file: " + err.message);
+          }
+        };
+        reader.readAsText(file);
+      });
+    }
+  }, 50);
+}
+window.openBackupModal = openBackupModal;
 
 function escapeHtml(str) {
   return String(str || "")

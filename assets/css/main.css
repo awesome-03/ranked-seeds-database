@@ -95,6 +95,39 @@ button {
   border-radius: var(--normal-gap);
 }
 
+#backup-btn {
+  position: fixed;
+  top: 1rem;
+  right: 1.5rem;
+  z-index: 9999;
+  border: 1px solid var(--border);
+  background-color: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--normal-gap);
+  cursor: pointer;
+  padding: 0.5rem 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.15s ease;
+}
+
+#backup-btn img.backup-btn-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+#backup-btn:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  border-color: var(--border);
+}
+
 @media (max-width: 1944px) {
   main {
     grid-template-columns: minmax(320px, 420px) minmax(650px, 1000px) minmax(320px, 420px);
