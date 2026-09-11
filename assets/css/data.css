@@ -10,6 +10,7 @@ section#data .bg-box {
 
   max-width: 1000px;
   box-sizing: border-box;
+  padding-top: 1.5rem;
 }
 
 div#data-titles, .data-row {
@@ -22,6 +23,7 @@ div#data-titles, .data-row {
 div#data-titles {
   width: 100%;
   height: 30px;
+  font-weight: 600;
 }
 
 .data-list {

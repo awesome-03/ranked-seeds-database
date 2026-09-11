@@ -13,18 +13,21 @@
   --border: hsl(0 0% 28%);
   --border-muted: hsl(0, 0%, 13%);
   --primary: hsl(311, 78%, 72%);
-  --secondary: hsl(51 42% 57%);
+  --secondary: hsl(114, 65%, 42%);
+  /* --secondary: hsl(311, 78%, 72%); */
+  /* --secondary: hsl(262, 55%, 59%); */
   --danger: hsl(9 26% 64%);
   --warning: hsl(52 19% 57%);
   --success: hsl(146 17% 59%);
   --info: hsl(217 28% 65%);
 
-  --green: rgb(30, 176, 30);
-  --dark-green: rgba(16, 211, 16, 0.35);
-  --red: rgb(201, 42, 42);
-  --dark-red: rgba(227, 19, 19, 0.45);
-  --yellow: rgb(226, 174, 4);
-  --dark-yellow: rgba(240, 175, 30, 0.4);
+  /* --green: hsl(120, 71%, 40%); */
+  --green: hsl(114, 65%, 42%);
+  --dark-green: hsla(120, 86%, 45%, 0.35);
+  --red: hsl(0, 65%, 48%);
+  --dark-red: hsla(0, 85%, 48%, 0.45);
+  --yellow: hsl(46, 97%, 45%);
+  --dark-yellow: hsla(41, 88%, 53%, 0.4);
 
   --normal-gap: 0.5rem;
 
@@ -58,6 +61,7 @@ h1 {
   justify-content: center;
   margin: 1rem 0rem;
   font-size: 2rem;
+  font-weight: 600;
 }
 
 main {

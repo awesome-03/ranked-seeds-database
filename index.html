@@ -979,11 +979,27 @@
           <button id="trash-set-btn" title="Delete Selected Set" disabled>
             <img src="assets/img/trash_can.png" alt="Delete" class="trash-icon">
           </button>
-          <button id="add-set-btn">+ New Set</button>
+          <div id="btns-container">
+            <button id="add-to-set-btn">+ Add to Set</button>
+            <button id="add-set-btn">+ New Set</button>
+          </div>
         </div>
       </div>
     </section>
   </main>
+
+  <!-- Pop Up -->
+  <div id="pop-up" style="display: none;">
+    <div id="pop-up-box">
+      <h3 id="pop-up-title">Confirmation</h3>
+      <p id="pop-up-message">Are you sure?</p>
+      <div id="pop-up-body"></div>
+      <div id="pop-up-actions">
+        <button id="pop-up-cancel-btn">Cancel</button>
+        <button id="pop-up-confirm-btn">Confirm</button>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

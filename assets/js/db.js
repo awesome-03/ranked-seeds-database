@@ -272,13 +272,12 @@ export function renderSeedResults(results) {
 
     count++;
     const savedSeedObj = savedSeeds.find((s) => s.owSeed === cleanOw && s.netherSeed === cleanNether);
-    const isChecked = Boolean(savedSeedObj);
     const notesVal = savedSeedObj && savedSeedObj.notes ? savedSeedObj.notes : "";
-
+    const isChecked = Boolean(savedSeedObj);
     const rowDiv = document.createElement("div");
     rowDiv.className = "data-row";
     rowDiv.innerHTML = `
-      <input type="checkbox" ${isChecked ? "checked" : ""}>
+      <input type="checkbox">
       <p class="ow-seed">${escapeHtml(cleanOw)}</p>
       <p class="nether-seed">${escapeHtml(cleanNether)}</p>
       <input type="text" name="notes" class="notes-box" value="${escapeHtml(notesVal)}"></input>
@@ -292,6 +291,9 @@ export function renderSeedResults(results) {
         No seeds found with these filter settings.
       </div>
     `;
+  }
+  if (typeof window.updateTrashButtonState === "function") {
+    window.updateTrashButtonState();
   }
 }
 
@@ -308,6 +310,9 @@ export function renderSetSeeds(set) {
         No seeds saved in "${escapeHtml(set ? set.name : "this set")}" yet. Check seeds in search results to save them here!
       </div>
     `;
+    if (typeof window.updateTrashButtonState === "function") {
+      window.updateTrashButtonState();
+    }
     return;
   }
 
@@ -315,13 +320,17 @@ export function renderSetSeeds(set) {
     const rowDiv = document.createElement("div");
     rowDiv.className = "data-row";
     rowDiv.innerHTML = `
-      <input type="checkbox" checked>
+      <input type="checkbox">
       <p class="ow-seed">${escapeHtml(seed.owSeed)}</p>
       <p class="nether-seed">${escapeHtml(seed.netherSeed)}</p>
       <input type="text" name="notes" class="notes-box" value="${escapeHtml(seed.notes || "")}"></input>
     `;
     dataList.appendChild(rowDiv);
   });
+
+  if (typeof window.updateTrashButtonState === "function") {
+    window.updateTrashButtonState();
+  }
 }
 
 function escapeHtml(str) {

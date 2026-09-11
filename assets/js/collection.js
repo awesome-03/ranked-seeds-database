@@ -102,6 +102,91 @@ export function unselectActiveSet(skipReSearch = false) {
 }
 window.unselectActiveSet = unselectActiveSet;
 
+// Return list of currently checked seeds
+export function getCheckedSeeds() {
+  const checked = [];
+  const rows = document.querySelectorAll(".data-list .data-row");
+  rows.forEach((row) => {
+    const cb = row.querySelector("input[type='checkbox']");
+    if (cb && cb.checked) {
+      const owSeed = row.querySelector(".ow-seed")?.textContent.trim() || "";
+      const netherSeed = row.querySelector(".nether-seed")?.textContent.trim() || "";
+      const notes = row.querySelector(".notes-box")?.value || "";
+      checked.push({ owSeed, netherSeed, notes });
+    }
+  });
+  return checked;
+}
+
+// Trash Can state
+export function updateTrashButtonState() {
+  const trashBtn = document.getElementById("trash-set-btn");
+  if (!trashBtn) return;
+
+  const activeSet = getActiveSet();
+  const checkedSeeds = getCheckedSeeds();
+
+  if (activeSet) {
+    if (checkedSeeds.length > 0) {
+      trashBtn.disabled = false;
+      trashBtn.title = `Remove ${checkedSeeds.length} selected seed${checkedSeeds.length === 1 ? "" : "s"} from "${activeSet.name}"`;
+    } else if (activeSet.id === "played") {
+      trashBtn.disabled = true;
+      trashBtn.title = `The Played set cannot be deleted`;
+    } else {
+      trashBtn.disabled = false;
+      trashBtn.title = `Delete "${activeSet.name}" set`;
+    }
+  } else {
+    trashBtn.disabled = true;
+    trashBtn.title = `Select a set or seed to enable delete`;
+  }
+}
+window.updateTrashButtonState = updateTrashButtonState;
+
+// Pop Up
+export function showPopUp({ title, message, bodyHTML, confirmText, confirmClass, onConfirm, cancelText }) {
+  const overlay = document.getElementById("pop-up");
+  const titleEl = document.getElementById("pop-up-title");
+  const msgEl = document.getElementById("pop-up-message");
+  const bodyEl = document.getElementById("pop-up-body");
+  const confirmBtn = document.getElementById("pop-up-confirm-btn");
+  const cancelBtn = document.getElementById("pop-up-cancel-btn");
+
+  if (!overlay || !confirmBtn || !cancelBtn) return;
+
+  titleEl.textContent = title || "Confirmation";
+  msgEl.textContent = message || "";
+  bodyEl.innerHTML = bodyHTML || "";
+
+  confirmBtn.textContent = confirmText || "Confirm";
+  cancelBtn.textContent = cancelText || "Cancel";
+
+  confirmBtn.className = confirmClass || "";
+
+  overlay.style.display = "flex";
+
+  const closePopUp = () => {
+    overlay.style.display = "none";
+    confirmBtn.className = "";
+    confirmBtn.onclick = null;
+    cancelBtn.onclick = null;
+  };
+
+  cancelBtn.onclick = closePopUp;
+  overlay.onclick = (e) => {
+    if (e.target === overlay) closePopUp();
+  };
+
+  confirmBtn.onclick = () => {
+    if (typeof onConfirm === "function") {
+      onConfirm();
+    }
+    closePopUp();
+  };
+}
+window.showPopUp = showPopUp;
+
 // Render Collection Set Cards
 function renderCollection() {
   const container = document.getElementById("collection-sets-list");
@@ -191,12 +276,7 @@ function renderCollection() {
     container.appendChild(setCard);
   });
 
-  // Update Trash Can Button state (enabled only when a deletable set is active)
-  const trashBtn = document.getElementById("trash-set-btn");
-  if (trashBtn) {
-    const activeSet = getActiveSet();
-    trashBtn.disabled = !activeSet || activeSet.id === "played";
-  }
+  updateTrashButtonState();
 }
 
 // Linear 1:1 Pointer Drag and Drop Reordering with Sibling Push Animations
@@ -321,7 +401,7 @@ function makeSetNameEditable(nameSpan, set) {
   });
 }
 
-// Change data bg colro
+// Sync Data Section background color and contents with active set
 export function syncActiveSetToDataSection() {
   const activeSet = getActiveSet();
   const dataBgBox = document.querySelector("section#data .bg-box");
@@ -334,6 +414,7 @@ export function syncActiveSetToDataSection() {
     if (typeof window.executeAndRenderSearch === "function") {
       window.executeAndRenderSearch();
     }
+    updateTrashButtonState();
     return;
   }
 
@@ -343,6 +424,7 @@ export function syncActiveSetToDataSection() {
   }
 
   renderSetSeeds(activeSet);
+  updateTrashButtonState();
 }
 
 // Set up listeners
@@ -367,48 +449,146 @@ function setupEventListeners() {
     });
   }
 
+  // Add to Set Handler
+  const addToSetBtn = document.getElementById("add-to-set-btn");
+  if (addToSetBtn) {
+    addToSetBtn.addEventListener("click", () => {
+      const checkedSeeds = getCheckedSeeds();
+      if (checkedSeeds.length === 0) {
+        showPopUp({
+          title: "No Seeds Selected",
+          message: "Please select at least one seed to add it to a set.",
+          confirmText: "OK",
+          confirmClass: "green-btn",
+        });
+        return;
+      }
+
+      let optionsHTML = sets.map((s) => `<option value="${s.id}">${escapeHtml(s.name)} (${s.seeds ? s.seeds.length : 0} seeds)</option>`).join("");
+      optionsHTML += `<option value="__new_set__">+ Create New Set</option>`;
+
+      const bodyHTML = `
+        <label style="font-size: 0.88rem; color: var(--text-muted);">Select Set:</label>
+        <select id="pop-up-set-select">
+          ${optionsHTML}
+        </select>
+      `;
+
+      showPopUp({
+        title: "Add Seeds to Set",
+        message: `Add ${checkedSeeds.length} selected seed${checkedSeeds.length === 1 ? "" : "s"} to set:`,
+        bodyHTML,
+        confirmText: "Add to Set",
+        confirmClass: "green-btn",
+        onConfirm: () => {
+          const select = document.getElementById("pop-up-set-select");
+          if (!select) return;
+          const targetId = select.value;
+
+          let targetSet = null;
+          if (targetId === "__new_set__") {
+            const randomColor = PREDETERMINED_COLORS[Math.floor(Math.random() * PREDETERMINED_COLORS.length)];
+            targetSet = {
+              id: "set_" + Date.now(),
+              name: "New Set",
+              enabled: true,
+              colorVar: randomColor,
+              seeds: [],
+            };
+            sets.push(targetSet);
+          } else {
+            targetSet = sets.find((s) => s.id === targetId);
+          }
+
+          if (!targetSet) return;
+          if (!targetSet.seeds) targetSet.seeds = [];
+
+          checkedSeeds.forEach((seed) => {
+            const idx = targetSet.seeds.findIndex((s) => s.owSeed === seed.owSeed && s.netherSeed === seed.netherSeed);
+            if (idx >= 0) {
+              if (seed.notes) targetSet.seeds[idx].notes = seed.notes;
+            } else {
+              targetSet.seeds.push(seed);
+            }
+          });
+
+          saveSets();
+          renderCollection();
+          if (activeSetId === targetSet.id) {
+            syncActiveSetToDataSection();
+          }
+          updateTrashButtonState();
+        },
+      });
+    });
+  }
+
+  // Trash Can Button Handler
   const trashBtn = document.getElementById("trash-set-btn");
   if (trashBtn) {
     trashBtn.addEventListener("click", () => {
       const activeSet = getActiveSet();
-      if (!activeSet || activeSet.id === "played") return;
+      const checkedSeeds = getCheckedSeeds();
 
-      sets = sets.filter((s) => s.id !== activeSetId);
-      activeSetId = null;
-      saveSets();
-      renderCollection();
-      syncActiveSetToDataSection();
+      if (activeSet && checkedSeeds.length > 0) {
+        // Confirm before removing
+        showPopUp({
+          title: "Remove Seeds",
+          message: `Are you sure you want to remove ${checkedSeeds.length} selected seed${checkedSeeds.length === 1 ? "" : "s"} from "${activeSet.name}"?`,
+          confirmText: "Remove from Set",
+          confirmClass: "",
+          onConfirm: () => {
+            activeSet.seeds = activeSet.seeds.filter((s) => 
+              !checkedSeeds.some((cs) => cs.owSeed === s.owSeed && cs.netherSeed === s.netherSeed)
+            );
+            saveSets();
+            renderCollection();
+            syncActiveSetToDataSection();
+            updateTrashButtonState();
+          },
+        });
+      } else if (activeSet && activeSet.id !== "played") {
+        // Confirm Deletion of Active Set
+        showPopUp({
+          title: "Delete Set",
+          message: `Are you sure you want to delete "${activeSet.name}"? This action cannot be undone.`,
+          confirmText: "Delete Set",
+          confirmClass: "",
+          onConfirm: () => {
+            sets = sets.filter((s) => s.id !== activeSetId);
+            unselectActiveSet();
+            saveSets();
+            renderCollection();
+            updateTrashButtonState();
+          },
+        });
+      }
     });
   }
 
-  // Listen for seed checkboxes in data list
   const dataList = document.querySelector(".data-list");
   if (dataList) {
     dataList.addEventListener("change", (e) => {
-      if (e.target && e.target.type === "checkbox") {
+      updateTrashButtonState();
+    });
+
+    dataList.addEventListener("input", (e) => {
+      if (e.target && e.target.classList.contains("notes-box")) {
         const row = e.target.closest(".data-row");
         if (!row) return;
 
         const owSeed = row.querySelector(".ow-seed")?.textContent.trim() || "";
         const netherSeed = row.querySelector(".nether-seed")?.textContent.trim() || "";
-        const notes = row.querySelector(".notes-box")?.value || "";
+        const notes = e.target.value;
 
         const activeSet = getActiveSet();
-        if (!activeSet) return;
-
-        if (!activeSet.seeds) activeSet.seeds = [];
-
-        if (e.target.checked) {
-          const exists = activeSet.seeds.some((s) => s.owSeed === owSeed && s.netherSeed === netherSeed);
-          if (!exists) {
-            activeSet.seeds.push({ owSeed, netherSeed, notes });
+        if (activeSet && activeSet.seeds) {
+          const seed = activeSet.seeds.find((s) => s.owSeed === owSeed && s.netherSeed === netherSeed);
+          if (seed) {
+            seed.notes = notes;
+            saveSets();
           }
-        } else {
-          activeSet.seeds = activeSet.seeds.filter((s) => !(s.owSeed === owSeed && s.netherSeed === netherSeed));
         }
-
-        saveSets();
-        renderCollection();
       }
     });
   }
