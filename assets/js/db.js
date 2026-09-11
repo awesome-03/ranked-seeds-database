@@ -242,14 +242,21 @@ export function executeQuery(config) {
   }
 }
 
-// Render the database query results into section#data .data-list
+let cachedSearchResults = null;
+
+// Show the database query results
 export function renderSeedResults(results) {
+  if (results !== undefined) {
+    cachedSearchResults = results;
+  }
+  const targetResults = results !== undefined ? results : cachedSearchResults;
+
   const dataList = document.querySelector(".data-list");
   if (!dataList) return;
 
   dataList.innerHTML = "";
 
-  if (!results || results.length === 0 || !results[0].values || results[0].values.length === 0) {
+  if (!targetResults || targetResults.length === 0 || !targetResults[0].values || targetResults[0].values.length === 0) {
     dataList.innerHTML = `
       <div class="data-row-empty" style="text-align: center; padding: 2rem; color: var(--text-muted);">
         No seeds found with these filter settings.
@@ -258,7 +265,7 @@ export function renderSeedResults(results) {
     return;
   }
 
-  const rows = results[0].values;
+  const rows = targetResults[0].values;
   const activeSet = getActiveSet();
   const savedSeeds = activeSet && activeSet.seeds ? activeSet.seeds : [];
   const disabledSeeds = getDisabledSeeds();
@@ -296,6 +303,11 @@ export function renderSeedResults(results) {
     window.updateTrashButtonState();
   }
 }
+
+export function renderSavedSearchResults() {
+  renderSeedResults(cachedSearchResults);
+}
+window.renderSavedSearchResults = renderSavedSearchResults;
 
 // Render seeds inside a set
 export function renderSetSeeds(set) {

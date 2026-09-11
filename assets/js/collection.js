@@ -225,7 +225,13 @@ function renderCollection() {
     `;
 
     setCard.addEventListener("click", (e) => {
-      if (e.target.closest(".set-toggle-btn") || e.target.closest(".drag-handle") || e.target.tagName === "INPUT") {
+      if (
+        e.target.closest(".set-toggle-btn") ||
+        e.target.closest(".drag-handle") ||
+        e.target.closest(".set-name") ||
+        e.target.closest(".set-name-input") ||
+        e.target.tagName === "INPUT"
+      ) {
         return;
       }
 
@@ -242,10 +248,13 @@ function renderCollection() {
     // Edit Name
     const nameSpan = setCard.querySelector(".set-name");
     if (nameSpan && set.id !== "played") {
-      nameSpan.addEventListener("click", (e) => {
+      const startEdit = (e) => {
         e.stopPropagation();
         makeSetNameEditable(nameSpan, set);
-      });
+      };
+      nameSpan.addEventListener("pointerdown", (e) => e.stopPropagation());
+      nameSpan.addEventListener("mousedown", (e) => e.stopPropagation());
+      nameSpan.addEventListener("click", startEdit);
     }
 
     // Toggle ENABLED / DISABLED
@@ -257,14 +266,18 @@ function renderCollection() {
         saveSets();
         renderCollection();
 
-        // Re-run search if in search mode so disabled seeds update immediately
-        if (!activeSetId && typeof window.executeAndRenderSearch === "function") {
-          window.executeAndRenderSearch();
+        // Re-render search results using cached query output if in search mode
+        if (!activeSetId) {
+          if (typeof window.renderSavedSearchResults === "function") {
+            window.renderSavedSearchResults();
+          } else if (typeof window.executeAndRenderSearch === "function") {
+            window.executeAndRenderSearch();
+          }
         }
       });
     }
 
-    // Linear Pointer-based Drag & Drop Reordering on 6-dot handle
+    // Reorder Handler
     const handle = setCard.querySelector(".drag-handle");
     if (handle) {
       handle.addEventListener("pointerdown", (e) => {
@@ -280,7 +293,7 @@ function renderCollection() {
   updateTrashButtonState();
 }
 
-// Linear 1:1 Pointer Drag and Drop Reordering with Sibling Push Animations
+// Reordering Animations
 function startPointerDrag(e, cardEl, setId) {
   const container = document.getElementById("collection-sets-list");
   if (!container) return;
@@ -300,7 +313,6 @@ function startPointerDrag(e, cardEl, setId) {
   cardEl.style.zIndex = "1000";
   cardEl.style.transition = "none";
 
-  // Set smooth transition on sibling cards so they push up or down out of the way
   cards.forEach((c) => {
     if (c !== cardEl) {
       c.style.transition = "transform 0.22s cubic-bezier(0.2, 0, 0.2, 1)";
@@ -313,7 +325,6 @@ function startPointerDrag(e, cardEl, setId) {
 
     cardEl.style.transform = `translateY(${deltaY}px)`;
 
-    // Calculate virtual target index based on mouse offset
     const dragOffsetIndex = Math.round(deltaY / totalItemHeight);
     let targetIndex = initialIndex + dragOffsetIndex;
     targetIndex = Math.max(0, Math.min(sets.length - 1, targetIndex));
@@ -322,7 +333,6 @@ function startPointerDrag(e, cardEl, setId) {
       currentIndex = targetIndex;
     }
 
-    // Visually shift all sibling cards to their pushed positions
     cards.forEach((c, idx) => {
       if (c === cardEl) return;
 
@@ -379,11 +389,18 @@ function makeSetNameEditable(nameSpan, set) {
   input.className = "set-name-input";
   input.value = set.name;
 
+  input.addEventListener("pointerdown", (e) => e.stopPropagation());
+  input.addEventListener("mousedown", (e) => e.stopPropagation());
+  input.addEventListener("click", (e) => e.stopPropagation());
+
   nameSpan.replaceWith(input);
   input.focus();
   input.select();
 
+  let committed = false;
   const commitEdit = () => {
+    if (committed) return;
+    committed = true;
     const val = input.value.trim();
     if (val) {
       set.name = val;
@@ -397,6 +414,7 @@ function makeSetNameEditable(nameSpan, set) {
     if (e.key === "Enter") {
       commitEdit();
     } else if (e.key === "Escape") {
+      committed = true;
       renderCollection();
     }
   });
@@ -412,7 +430,7 @@ function getCardColorVar(colorVar) {
   return "var(--bg-light)";
 }
 
-// Sync Data Section background color and contents with active set
+// Sync Data Section background color and contents
 export function syncActiveSetToDataSection() {
   const activeSet = getActiveSet();
   const dataBgBox = document.querySelector("section#data .bg-box");
@@ -423,7 +441,9 @@ export function syncActiveSetToDataSection() {
       dataBgBox.style.backgroundColor = "var(--bg-dark)";
       dataBgBox.style.setProperty("--row-bg", "var(--bg-light)");
     }
-    if (typeof window.executeAndRenderSearch === "function") {
+    if (typeof window.renderSavedSearchResults === "function") {
+      window.renderSavedSearchResults();
+    } else if (typeof window.executeAndRenderSearch === "function") {
       window.executeAndRenderSearch();
     }
     updateTrashButtonState();
