@@ -73,8 +73,8 @@ export function getFilterConfiguration() {
   } else if (config.overworld === "BURIED_TREASURE") {
     config.overworldExtras.buriedTreasure = {
       biome: {
-        coldOceans: get2WayState("#bt-biome-content", "Cold Oceans"),
-        warmOceans: get2WayState("#bt-biome-content", "Warm Oceans"),
+        coldOceans: get2WayState("#bt-biome-type-content", "Cold Oceans"),
+        warmOceans: get2WayState("#bt-biome-type-content", "Warm Oceans"),
       },
     };
   } else if (config.overworld === "VILLAGE") {
