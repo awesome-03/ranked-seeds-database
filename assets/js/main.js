@@ -344,7 +344,6 @@ export function handleSearch() {
       window.unselectActiveSet(true);
     }
     const config = getFilterConfiguration();
-    console.log("Search config:", config);
     window.lastSearchConfig = config;
 
     const results = executeQuery(config);

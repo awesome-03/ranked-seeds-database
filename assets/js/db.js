@@ -15,7 +15,6 @@ export async function initDatabase() {
     const response = await fetch("assets/db/seeds.db");
     const arrayBuffer = await response.arrayBuffer();
     db = new SQL.Database(new Uint8Array(arrayBuffer));
-    console.log("Database successfully initialized.");
     return true;
   } catch (err) {
     console.error("Failed to load SQLite database:", err);
@@ -231,8 +230,6 @@ export function executeQuery(config) {
   }
 
 //   sql += " LIMIT 100;";
-
-  console.log("Executing SQL Query:", sql, "Parameters:", params);
 
   try {
     return db.exec(sql, params);
