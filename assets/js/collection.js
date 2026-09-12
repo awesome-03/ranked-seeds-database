@@ -14,7 +14,7 @@ const PREDETERMINED_COLORS = [
 const DEFAULT_PLAYED_SET = {
   id: "played",
   name: "Played",
-  enabled: true,
+  enabled: false,
   colorVar: "var(--set-color-played)",
   seeds: [],
 };

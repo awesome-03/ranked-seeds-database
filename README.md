@@ -1,7 +1,7 @@
 # MCSR Ranked SeedBank
 
 I put together ~2000 ranked seeds in a database and made a site with various filter options that are available in the API.
-You can use these for practicing a specific type of seed that you can't consistently get with the current private room filters
+You can use these for practicing a specific type of seed that you can't consistently get with the current private room filters.
 [awesomedev.site/ranked-seedbank](https://awesomedev.site/ranked-seedbank/)
 
 ## Explanations
@@ -14,6 +14,8 @@ You can use these for practicing a specific type of seed that you can't consiste
   - Disabled means that the seeds in that set will not show up in future search results
   - You can reorder/rename sets but you can't change the colors in the GUI right now
 - If you want a **more permanent storage** you can download the sets data and import the sets from saved files
+
+(The scalability isn't great but I spent like minimal effort on it...)
 
 ## Previews
 
