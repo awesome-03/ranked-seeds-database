@@ -47,8 +47,7 @@ function updateOverworldExtras() {
       container.classList.add("active");
     }
 
-    container.style.height = "auto";
-    const targetHeight = container.getBoundingClientRect().height;
+    const targetHeight = hasContent && nextExtra ? Math.max(nextExtra.getBoundingClientRect().height, nextExtra.scrollHeight) : 0;
 
     container.style.height = `${startHeight}px`;
     void container.offsetHeight;
@@ -229,8 +228,7 @@ function updateBastionExtras() {
       container.classList.add("active");
     }
 
-    container.style.height = "auto";
-    const targetHeight = container.getBoundingClientRect().height;
+    const targetHeight = hasContent && nextExtra ? Math.max(nextExtra.getBoundingClientRect().height, nextExtra.scrollHeight) : 0;
 
     container.style.height = `${startHeight}px`;
     void container.offsetHeight;
